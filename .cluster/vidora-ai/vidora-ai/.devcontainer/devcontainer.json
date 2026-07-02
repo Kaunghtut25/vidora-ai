@@ -1,0 +1,16 @@
+{
+  "name": "Mg Claw Chat",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/prulloac/devcontainer-features/ollama:1": {}
+  },
+  "postCreateCommand": "bash /workspaces/vidora-ai/start-chat.sh",
+  "forwardPorts": [8888],
+  "portsAttributes": {
+    "8888": {
+      "label": "Mg Claw Chat",
+      "onAutoForward": "openBrowser",
+      "visibility": "public"
+    }
+  }
+}
