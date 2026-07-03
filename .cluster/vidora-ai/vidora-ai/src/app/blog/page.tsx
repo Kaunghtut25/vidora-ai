@@ -62,8 +62,8 @@ const posts: BlogPost[] = [
   },
   {
     slug: 'how-we-built-vidora',
-    title: 'How We Built Vidora AI — Technical Deep Dive',
-    excerpt: 'A behind-the-scenes look at our tech stack: Next.js 16, AI voice pipelines, Burmese NLP, and the architecture powering Vidora.',
+    title: 'How We Built Vendora AI — Technical Deep Dive',
+    excerpt: 'A behind-the-scenes look at our tech stack: Next.js 16, AI voice pipelines, Burmese NLP, and the architecture powering Vendora.',
     date: 'Jun 15, 2026',
     readTime: '12 min read',
     category: 'Engineering',
@@ -215,7 +215,7 @@ export default function BlogPage() {
               animate={{ opacity: 1, scale: 1 }}
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-400 text-xs font-medium mb-6"
             >
-              <Sparkles className="w-3.5 h-3.5" /> Vidora Blog
+              <Sparkles className="w-3.5 h-3.5" /> Vendora Blog
             </motion.div>
 
             <motion.h1
@@ -236,7 +236,7 @@ export default function BlogPage() {
               transition={{ delay: 0.15, duration: 0.5 }}
               className="mt-4 text-gray-400 text-lg max-w-lg mx-auto"
             >
-              Tutorials, deep dives, and creator guides from the Vidora team
+              Tutorials, deep dives, and creator guides from the Vendora team
             </motion.p>
           </div>
         </section>

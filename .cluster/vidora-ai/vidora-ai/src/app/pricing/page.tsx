@@ -60,7 +60,7 @@ const faqs = [
   {
     question: 'Do you offer refunds?',
     answer:
-      'We offer a 14-day money-back guarantee on all paid plans. If Vidora AI isn&apos;t the right fit, contact our support team and we&apos;ll process a full refund — no questions asked.',
+      'We offer a 14-day money-back guarantee on all paid plans. If Vendora AI isn&apos;t the right fit, contact our support team and we&apos;ll process a full refund — no questions asked.',
   },
 ];
 

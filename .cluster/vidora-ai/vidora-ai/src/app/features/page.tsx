@@ -192,17 +192,17 @@ function Navbar({ scrolled }: { scrolled: boolean }) {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'border-b border-white/[0.06] bg-[#0B0F19]/85 backdrop-blur-2xl'
+          ? 'border-b border-white/[0.06] bg-[#06080D]/85 backdrop-blur-2xl'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2.5 group" aria-label="Vidora Home">
+          <Link href="/" className="flex items-center gap-2.5 group" aria-label="Vendora Home">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8B5CF6] to-[#22D3EE] flex items-center justify-center font-bold text-sm shadow-lg shadow-violet-500/25 group-hover:shadow-violet-500/40 transition-shadow duration-300">
               V
             </div>
-            <span className="font-bold text-lg tracking-tight">Vidora</span>
+            <span className="font-bold text-lg tracking-tight">Vendora</span>
           </Link>
           <div className="hidden md:flex items-center gap-1">
             {NAV_LINKS.map((link) => (
@@ -254,13 +254,13 @@ function Footer() {
   };
 
   return (
-    <footer className="border-t border-white/[0.06] bg-[#0B0F19]">
+    <footer className="border-t border-white/[0.06] bg-[#06080D]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
           <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8B5CF6] to-[#22D3EE] flex items-center justify-center font-bold text-sm shadow-lg shadow-violet-500/25">V</div>
-              <span className="font-bold text-lg tracking-tight">Vidora</span>
+              <span className="font-bold text-lg tracking-tight">Vendora</span>
             </div>
             <p className="text-sm text-white/40 max-w-xs leading-relaxed mb-6">
               AI Video Creation Platform. Turn ideas into cinematic videos with AI-powered research, voice, and editing.
@@ -285,8 +285,8 @@ function Footer() {
           ))}
         </div>
         <div className="pt-8 border-t border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm text-white/30">© 2026 Vidora Inc. All rights reserved.</p>
-          <p className="text-sm text-white/30">Vidora Inc., 350 Fifth Avenue, Suite 3300, New York, NY 10118</p>
+          <p className="text-sm text-white/30">© 2026 Vendora Inc. All rights reserved.</p>
+          <p className="text-sm text-white/30">Vendora Inc., 350 Fifth Avenue, Suite 3300, New York, NY 10118</p>
         </div>
       </div>
     </footer>
@@ -314,7 +314,7 @@ export default function FeaturesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#06080D] text-white overflow-x-hidden">
       <Navbar scrolled={scrolled} />
 
       <main>
@@ -507,7 +507,7 @@ export default function FeaturesPage() {
                   {
                     step: '01',
                     title: 'Paste Your Content',
-                    desc: 'Drop a URL, upload a script, or type your idea. Vidora AI reads and understands your content in seconds, extracting key points automatically.',
+                    desc: 'Drop a URL, upload a script, or type your idea. Vendora AI reads and understands your content in seconds, extracting key points automatically.',
                     icon: '📋',
                   },
                   {

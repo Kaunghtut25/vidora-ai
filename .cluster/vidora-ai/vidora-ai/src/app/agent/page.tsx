@@ -98,7 +98,7 @@ export default function AgentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] flex">
+    <div className="min-h-screen bg-[#06080D] flex">
       {/* ── Left Sidebar ── */}
       <aside className="w-64 border-r border-white/[0.04] bg-[#0d1220] hidden lg:flex flex-col">
         <div className="p-6 border-b border-white/[0.04]">
@@ -166,7 +166,7 @@ export default function AgentPage() {
                   value={videoUrl}
                   onChange={(e) => setVideoUrl(e.target.value)}
                   placeholder="Or paste video path / URL..."
-                  className="w-full max-w-md bg-[#0B0F19] border border-white/[0.06] rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-violet-500 focus:outline-none transition-colors"
+                  className="w-full max-w-md bg-[#06080D] border border-white/[0.06] rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:border-violet-500 focus:outline-none transition-colors"
                 />
               </div>
 
