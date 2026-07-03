@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const OLLAMA = 'http://localhost:11434';
-const MODEL = 'qwen2.5-coder:7b'; // Fast, capable, free
+const MODEL = 'gemma3:4b'; // Fastest, most efficient — 3.3GB, instant response
 
 interface AgentTool {
   name: string;
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
         temperature: 0.7,
         stream: false
       }),
-      signal: AbortSignal.timeout(30000)
+      signal: AbortSignal.timeout(60000)
     });
 
     const data = await response.json();
