@@ -447,7 +447,7 @@ function FooterSection() {
           </div>
           {[
             { t: 'Product', links: [['Features', '/features'], ['Showcase', '/showcase'], ['Pricing', '/pricing'], ['Agent', '/agent'], ['Docs', '/help']] },
-            { t: 'Tools', links: [['Video Editor', '/create'], ['Downloader', '/download'], ['Voices', '/features'], ['Script Writer', '/agent']] },
+            { t: 'Tools', links: [['Video Editor', '/create'], ['Recap', '/recap'], ['Downloader', '/download'], ['Voices', '/features'], ['Script Writer', '/agent']] },
             { t: 'Company', links: [['About', '/about'], ['Contact', '/contact'], ['GitHub', 'https://github.com/Kaunghtut25/vidora-ai'], ['Blog', '/blog']] },
           ].map(c => (
             <div key={c.t}><h4 className="text-sm font-bold text-gray-900 mb-4">{c.t}</h4><div className="space-y-3">{c.links.map(([label, href]) => <Link key={label} href={href} className="block text-sm text-gray-500 hover:text-gray-900 transition-colors">{label}</Link>)}</div></div>
