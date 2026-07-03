@@ -15,7 +15,7 @@ from pathlib import Path
 
 OLLAMA = "http://localhost:11434"
 PORT = 8888
-HTML_FILE = Path(__file__).parent / "chat.html"
+HTML_FILE = Path(__file__).parent / "public" / "chat.html"
 
 class ProxyHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
