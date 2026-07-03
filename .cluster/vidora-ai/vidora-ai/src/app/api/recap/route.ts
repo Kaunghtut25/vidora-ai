@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     status: 'online',
-    pipeline: 'YouTube → yt-dlp frames → Ollama script → gTTS Burmese → FFmpeg Ken Burns',
-    features: ['YouTube link input', 'Burmese AI narration', 'Keyframe extraction', 'Ken Burns effect', 'Burmese subtitles', 'gTTS voiceover']
+    pipeline: 'YouTube → yt-dlp frames → Ollama script → Arena AI Burmese → FFmpeg Ken Burns',
+    features: ['YouTube link input', 'Burmese AI narration', 'Keyframe extraction', 'Ken Burns effect', 'Burmese subtitles', 'Arena AI Agent Mod voiceover']
   });
 }

@@ -1,320 +1,243 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { LOCATION } from '@/lib/currency';
-
-/* ═══════ ICONS ═══════ */
-const I = {
-  Play: ({ c = 'w-5 h-5' }) => <svg className={c} fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>,
-  Arrow: ({ c = 'w-5 h-5' }) => <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>,
-  Check: ({ c = 'w-5 h-5' }) => <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg>,
-  Spark: ({ c = 'w-5 h-5' }) => <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg>,
-  Eye: ({ c = 'w-5 h-5' }) => <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>,
-  Script: ({ c = 'w-5 h-5' }) => <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>,
-  Cut: ({ c = 'w-5 h-5' }) => <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7.848 8.25l1.536.887M7.848 8.25a3 3 0 11-5.196-3 3 3 0 015.196 3zm1.536.887a2.165 2.165 0 011.083 1.839c.005.351.054.695.14 1.024M9.384 9.137l2.077 1.2M7.848 15.75l1.536-.887m-1.536.887a3 3 0 11-5.196 3 3 3 0 015.196-3zm1.536-.887a2.165 2.165 0 001.083-1.838c.005-.352.054-.695.14-1.025m-1.223 2.863l2.077-1.2m0-3.328a4.323 4.323 0 012.068-1.379l5.325-1.628a4.5 4.5 0 012.48-.044l.803.215-7.794 4.5m-2.882-1.664A4.331 4.331 0 0010.607 12m3.736 0l7.794 4.5-.802.215a4.5 4.5 0 01-2.48-.043l-5.326-1.629a4.324 4.324 0 01-2.068-1.379M14.343 12l-2.882 1.664"/></svg>,
-  Wand: ({ c = 'w-5 h-5' }) => <svg className={c} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/></svg>,
-  Star: ({ c = 'w-5 h-5' }) => <svg className={c} fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>,
-  Bullet: () => <svg className="w-4 h-4 text-purple-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/></svg>,
-};
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { Play, ArrowRight, MessageCircle, Mic, Scissors, Wand, Download, Film, FileText, Sparkles, Users, Heart, Star, Upload, Check, ChevronRight } from 'lucide-react';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
 
 /* ═══════ DATA ═══════ */
-const PARTNERS = [
-  'Google', 'Microsoft', 'Amazon', 'Meta', 'Netflix', 'Apple', 'Spotify', 'Adobe',
-  'Salesforce', 'Oracle', 'IBM', 'Intel', 'Samsung', 'Sony', 'NVIDIA', 'Tesla',
-];
 
-const TABS = [
-  { id: 'ai', label: 'AI Video Editing', icon: I.Spark },
-  { id: 'agents', label: '4-Agent Pipeline', icon: I.Eye },
-  { id: 'tools', label: 'Editing Tools', icon: I.Cut },
-  { id: 'render', label: 'Rendering', icon: I.Wand },
-];
-
-const TAB_CONTENT: Record<string, { title: string; desc: string; bullets: string[]; img: string }> = {
-  ai: {
-    title: 'Bring AI where video content happens',
-    desc: 'Get integrated AI that analyzes footage, writes scripts, edits cuts, and renders final output — all through a 4-agent pipeline powered by CrewAI and Ollama.',
-    bullets: ['AI Scene Detection: HKUDS scans every frame for objects, scenes, and speech patterns', 'AI Scriptwriting: FireRed generates emotional narratives with beat-synced storyboards', 'AI Editing: video-use executes precise cuts, fades, and subtitle burns autonomously', 'AI Rendering: LTX applies transitions, color grades, and outputs studio-quality 1080p H.264'],
-    img: 'from-purple-500/20 to-purple-600/10'
+const featureCards = [
+  {
+    icon: Film, label: 'YouTube Tools', color: 'from-red-500/20 to-orange-500/10', borderColor: 'group-hover:border-red-500/30', iconColor: 'text-red-400', iconBg: 'bg-red-500/15',
+    desc: 'Download videos, extract transcripts, generate recaps from any YouTube link.',
+    href: '/download',
   },
-  agents: {
-    title: 'Four specialized agents, one seamless pipeline',
-    desc: 'Each agent masters one craft. HKUDS analyzes, FireRed writes, video-use edits, LTX renders. Sequential processing with self-evaluation at every stage.',
-    bullets: ['Sequential workflow: data flows from one agent to the next automatically', 'Self-evaluation loops: video-use reviews its own output and fixes issues', 'CrewAI orchestration: agents collaborate with defined roles and shared context', 'Ollama-powered: runs locally with gemma3:4b — zero API costs'],
-    img: 'from-blue-500/20 to-blue-600/10'
+  {
+    icon: Mic, label: 'AI Voiceovers', color: 'from-sky-500/20 to-blue-500/10', borderColor: 'group-hover:border-sky-500/30', iconColor: 'text-sky-400', iconBg: 'bg-sky-500/15',
+    desc: '24 professional voices in English + Burmese with Arena AI Agent Mod. Full emotion & speed control.',
+    href: '/create/step2',
   },
-  tools: {
-    title: 'Professional editing, fully automated',
-    desc: 'Jump cuts at word boundaries. 30ms audio cross-fades. UPPERCASE subtitle burning. Cinematic color grading. Everything happens automatically.',
-    bullets: ['FFmpeg-powered: industry-standard encoding and processing', 'Ken Burns effects: smooth pan and zoom with vignette', '24 AI voices: Edge TTS with natural English prosody', 'YouTube integration: download, extract frames, generate recaps'],
-    img: 'from-green-500/20 to-green-600/10'
+  {
+    icon: Scissors, label: 'Smart Editing', color: 'from-cyan-500/20 to-teal-500/10', borderColor: 'group-hover:border-cyan-500/30', iconColor: 'text-cyan-400', iconBg: 'bg-cyan-500/15',
+    desc: 'Auto scene detection, jump cuts, audio fades, and subtitle generation with LLM precision.',
+    href: '/features',
   },
-  render: {
-    title: 'Studio-quality output, every time',
-    desc: 'AI transitions between scenes. Professional color grading. H.264 1080p final encode. Ready for YouTube, social media, or broadcast.',
-    bullets: ['H.264 1080p: crisp, high-quality output optimized for web', 'AI scene transitions: smooth cross-fades generated between cuts', 'Color grading: cinematic teal-and-orange or custom LUTs', 'Multi-format: MP4, MOV, MKV — whatever you need'],
-    img: 'from-amber-500/20 to-amber-600/10'
+  {
+    icon: Sparkles, label: 'AI Agents', color: 'from-purple-500/20 to-violet-500/10', borderColor: 'group-hover:border-purple-500/30', iconColor: 'text-purple-400', iconBg: 'bg-purple-500/15',
+    desc: '4 AI agents collaborate — HKUDS analyzes, FireRed scripts, video-use cuts, LTX renders.',
+    href: '/agent',
   },
-};
-
-const CAPABILITIES = [
-  { icon: I.Eye, title: 'AI Analysis', desc: 'HKUDS agent scans every frame — detects scenes, objects, and speech patterns.' },
-  { icon: I.Script, title: 'Scriptwriting', desc: 'FireRed generates professional scripts with emotional arcs and storyboards.' },
-  { icon: I.Cut, title: 'Auto Editing', desc: 'video-use executes jump cuts, audio fades, and subtitle burns with LLM precision.' },
-  { icon: I.Wand, title: 'Rendering', desc: 'LTX applies AI transitions, color grades, and renders 1080p H.264 output.' },
-  { icon: I.Spark, title: '24 AI Voices', desc: 'Edge TTS powered — natural English voiceovers with professional prosody.' },
-  { icon: I.Star, title: 'Open Source', desc: 'No API keys. No subscriptions. Everything runs free on your machine.' },
+  {
+    icon: Wand, label: 'Cinematic Render', color: 'from-emerald-500/20 to-green-500/10', borderColor: 'group-hover:border-emerald-500/30', iconColor: 'text-emerald-400', iconBg: 'bg-emerald-500/15',
+    desc: 'Ken Burns effects, color grading, transitions — cinema-quality output at 4K.',
+    href: '/features',
+  },
+  {
+    icon: MessageCircle, label: 'Burmese Narration', color: 'from-amber-500/20 to-yellow-500/10', borderColor: 'group-hover:border-amber-500/30', iconColor: 'text-amber-400', iconBg: 'bg-amber-500/15',
+    desc: 'Native Burmese script generation + Arena AI voiceover for authentic Myanmar content.',
+    href: '/recap',
+  },
 ];
 
-const STATS = [
-  { value: '4', suffix: '', label: 'AI Agents' },
-  { value: '24', suffix: '', label: 'Voices' },
-  { value: '4K', suffix: '', label: 'Export Quality' },
-  { value: '0', suffix: '', label: 'Cost' },
+const agentSteps = [
+  { n: '01', name: 'Upload', icon: Upload, desc: 'Drop footage or paste a YouTube link', color: 'text-gray-400', bg: 'bg-gray-500/10', gradient: 'from-gray-500/10 to-transparent' },
+  { n: '02', name: 'Analyze', icon: Sparkles, desc: 'HKDUDS scans frames, detects scenes & speech', color: 'text-purple-400', bg: 'bg-purple-500/10', gradient: 'from-purple-500/10 to-transparent' },
+  { n: '03', name: 'Script', icon: FileText, desc: 'FireRed writes narrative with emotional arcs', color: 'text-fuchsia-400', bg: 'bg-fuchsia-500/10', gradient: 'from-fuchsia-500/10 to-transparent' },
+  { n: '04', name: 'Cut', icon: Scissors, desc: 'video-use executes edits, fades, subtitles', color: 'text-cyan-400', bg: 'bg-cyan-500/10', gradient: 'from-cyan-500/10 to-transparent' },
+  { n: '05', name: 'Render', icon: Wand, desc: 'LTX applies VFX, color grade, final encode', color: 'text-emerald-400', bg: 'bg-emerald-500/10', gradient: 'from-emerald-500/10 to-transparent' },
 ];
 
-const TESTIMONIALS = [
-  { quote: 'Vendora saved me 80+ hours per video. The 4-agent pipeline is like having an entire production team in my laptop.', name: 'Ko Kaung', role: 'Content Creator', location: '🇹🇭 Thailand' },
-  { quote: 'I used to spend days editing. Now I drop footage and Vendora\'s agents handle everything. The results are cinema-quality.', name: 'Aung Myint', role: 'YouTuber', location: '🇲🇲 Myanmar' },
-  { quote: 'The self-evaluation feature is incredible — the editor agent actually reviews its own work and fixes mistakes. Game changer.', name: 'Sarah Chen', role: 'Video Producer', location: '🇸🇬 Singapore' },
+const voiceCards = [
+  { name: 'Andrew', accent: 'US · Male', tag: 'Deep Authoritative', color: 'from-blue-500 to-indigo-600', ring: 'ring-blue-500/20' },
+  { name: 'Emma', accent: 'US · Female', tag: 'Warm Friendly', color: 'from-fuchsia-500 to-pink-600', ring: 'ring-fuchsia-500/20' },
+  { name: 'Ryan', accent: 'UK · Male', tag: 'Smooth British', color: 'from-violet-500 to-purple-600', ring: 'ring-violet-500/20' },
+  { name: 'Sonia', accent: 'UK · Female', tag: 'Elegant Narration', color: 'from-rose-500 to-pink-600', ring: 'ring-rose-500/20' },
+  { name: 'Thiha', accent: 'MM · Male', tag: 'Burmese Deep', color: 'from-amber-500 to-orange-600', ring: 'ring-amber-500/20' },
+  { name: 'Mya', accent: 'MM · Female', tag: 'Soft Storytelling', color: 'from-pink-500 to-rose-600', ring: 'ring-pink-500/20' },
 ];
 
-/* ═══════ COMPONENTS ═══════ */
-
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', h); return () => window.removeEventListener('scroll', h);
-  }, []);
-
-  return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all ${scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-gray-100 shadow-sm' : 'bg-white border-b border-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg bg-[#771BFF] flex items-center justify-center font-bold text-sm text-white">V</div>
-            <span className="font-bold text-lg text-gray-900 tracking-tight">Vendora</span>
-          </Link>
-          <div className="hidden lg:flex items-center gap-1">
-            {['Features', 'Showcase', 'Pricing', 'Agent', 'Docs'].map(l => (
-              <Link key={l} href={`/${l.toLowerCase()}`} className="px-3 py-2 text-sm text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-all">{l}</Link>
-            ))}
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="hidden sm:inline text-xs text-gray-400">{LOCATION.flag} Thailand</span>
-            <Link href="/login" className="text-sm text-gray-600 hover:text-gray-900 px-3 py-2">Sign in</Link>
-            <Link href="/create" className="px-5 py-2.5 bg-[#771BFF] text-white text-sm font-semibold rounded-lg hover:bg-[#5B0FCC] transition-colors">
-              Try free
-            </Link>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
-}
-
-/* ═══ HERO ═══ */
+/* ═══════ HERO ═══════ */
 function Hero() {
   return (
-    <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: Text */}
-          <div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.1] mb-6">
-              The{' '}
-              <span className="gradient-purple">AI-powered</span>
-              <br />
-              video editing platform
-              <br />
-              for every creator
-            </h1>
-            <p className="text-lg text-gray-500 max-w-xl mb-8 leading-relaxed">
-              4 AI agents analyze, script, cut, and render your videos. Open source. Free forever. Built for creators in {LOCATION.flag} Thailand, 🇲🇲 Myanmar, and worldwide.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link href="/create" className="btn-primary px-8 py-3.5 text-base">
-                <I.Play c="w-5 h-5" /> Explore Vendora free
-              </Link>
-              <Link href="/showcase" className="btn-outline px-8 py-3.5 text-base">
-                View showcase
-              </Link>
-            </div>
-          </div>
+    <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-500/8 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/6 rounded-full blur-[120px]" />
+      </div>
 
-          {/* Right: Signup card */}
-          <div className="lg:pl-8">
-            <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-lg">
-              <div className="text-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-1">Vendora{' '}
-                  <span className="gradient-purple font-extrabold">Free</span>
-                </h2>
-                <p className="text-sm text-gray-500">No credit card required</p>
-              </div>
-              <Link href="/create" className="block w-full text-center py-3 bg-[#771BFF] text-white font-semibold rounded-lg hover:bg-[#5B0FCC] transition-colors mb-4">
-                Create account
-              </Link>
-              <div className="relative my-5">
-                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div>
-                <div className="relative flex justify-center text-sm"><span className="px-3 bg-white text-gray-400">OR</span></div>
-              </div>
-              <Link href="/create" className="block w-full text-center py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors mb-6">
-                Start editing now
-              </Link>
-              <div className="flex justify-center gap-4">
-                <div className="text-center"><div className="text-sm font-bold text-gray-900">฿0</div><div className="text-[10px] text-gray-400">THB</div></div>
-                <div className="text-center"><div className="text-sm font-bold text-gray-900">0 Ks</div><div className="text-[10px] text-gray-400">MMK</div></div>
-                <div className="text-center"><div className="text-sm font-bold text-gray-900">$0</div><div className="text-[10px] text-gray-400">USD</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="relative z-10 max-w-5xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/10 px-4 py-1.5 text-xs font-medium text-purple-300 mb-8"
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          4 AI Agents — Free Forever
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
+          className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6"
+        >
+          <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+            AI Video Production
+          </span>
+          <br />
+          <span className="text-white">Made Effortless</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}
+          className="text-lg text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+        >
+          4 AI agents analyze your footage, write scripts, cut scenes, add voiceovers, and render cinema-quality videos —{' '}
+          <span className="text-white font-semibold">all open source. Always free.</span>
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-3"
+        >
+          <Link
+            href="/create/step1"
+            className="group inline-flex items-center gap-2 px-8 py-3.5 bg-purple-600 hover:bg-purple-500 rounded-full text-white font-semibold text-base transition-all shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40"
+          >
+            <Play className="w-5 h-5" fill="currentColor" />
+            Start Creating Free
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <Link
+            href="/agent"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/10 text-gray-300 font-medium hover:bg-white/[0.06] hover:border-white/20 transition-all text-base"
+          >
+            Meet the Agents →
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
 }
 
-/* ═══ PARTNER SCROLL ═══ */
-function PartnerScroll() {
+/* ═══════ FEATURE CARDS ═══════ */
+function FeaturesSection() {
   return (
-    <section className="py-12 border-y border-gray-100 bg-gray-50/50 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden" style={{ maskImage: 'linear-gradient(90deg, transparent, black 10%, black 90%, transparent)' }}>
-          <div className="partner-scroll py-4">
-            {[...PARTNERS, ...PARTNERS].map((p, i) => (
-              <div key={i} className="flex-shrink-0 px-6">
-                <span className="text-lg font-bold text-gray-300 whitespace-nowrap">{p}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+    <section className="px-6 pb-24">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+          className="text-center mb-14"
+        >
+          <span className="text-xs font-semibold tracking-widest uppercase text-purple-400 mb-3 block">Features</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            Everything to{' '}
+            <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Ship Videos</span>
+          </h2>
+          <p className="text-gray-400 max-w-xl mx-auto text-center">
+            No API keys. No subscriptions. Pure AI power — free and open source.
+          </p>
+        </motion.div>
 
-/* ═══ TABBED FEATURES ═══ */
-function TabbedFeatures() {
-  const [active, setActive] = useState('ai');
-  const content = TAB_CONTENT[active];
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {featureCards.map((f, i) => (
+            <Link key={f.label} href={f.href}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.07, duration: 0.5 }}
+                className={`group relative rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-md overflow-hidden hover:bg-white/[0.05] ${f.borderColor} transition-all duration-300 cursor-pointer`}
+              >
+                {/* Card image area with gradient + icon pattern */}
+                <div className={`relative h-44 overflow-hidden bg-gradient-to-br ${f.color}`}>
+                  {/* Diagonal pattern lines for visual texture */}
+                  <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 400 200">
+                    <pattern id={`dots-${i}`} x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                      <circle cx="10" cy="10" r="1.5" fill="currentColor" />
+                    </pattern>
+                    <rect width="400" height="200" fill={`url(#dots-${i})`} />
+                    <line x1="0" y1="0" x2="400" y2="200" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
+                    <line x1="200" y1="0" x2="400" y2="200" stroke="currentColor" strokeWidth="0.3" opacity="0.15" />
+                    <line x1="0" y1="100" x2="400" y2="100" stroke="currentColor" strokeWidth="0.3" opacity="0.1" />
+                  </svg>
+                  {/* Icon */}
+                  <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${f.iconColor} opacity-70`}>
+                    <f.icon className="w-20 h-20" strokeWidth={1} />
+                  </div>
+                  {/* Gradient overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/30 to-transparent" />
+                  {/* Label at bottom */}
+                  <div className="absolute bottom-4 left-5 text-xs font-semibold text-white/90 tracking-wider uppercase">{f.label}</div>
+                </div>
 
-  return (
-    <section className="section-padding bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-1 mb-12 border-b border-gray-200">
-          {TABS.map(t => (
-            <button key={t.id} onClick={() => setActive(t.id)}
-              className={`flex items-center gap-2 px-6 py-4 text-sm font-semibold transition-all border-b-2 -mb-px ${
-                active === t.id ? 'text-[#771BFF] border-[#771BFF]' : 'text-gray-500 border-transparent hover:text-gray-700'
-              }`}>
-              <t.icon c="w-4 h-4" /> {t.label}
-            </button>
+                {/* Card body */}
+                <div className="p-5">
+                  <div className={`w-10 h-10 rounded-xl ${f.iconBg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                    <f.icon className={`w-5 h-5 ${f.iconColor}`} />
+                  </div>
+                  <h3 className="text-white font-bold mb-2">{f.label}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed mb-4">{f.desc}</p>
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-purple-400 group-hover:text-purple-300 transition-colors">
+                    Explore
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  </span>
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
-
-        {/* Content */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">{content.title}</h3>
-            <p className="text-gray-500 mb-6 leading-relaxed">{content.desc}</p>
-            <ul className="space-y-4">
-              {content.bullets.map((b, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-gray-600">
-                  <I.Bullet />
-                  <span dangerouslySetInnerHTML={{ __html: b.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900">$1</strong>') }} />
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8">
-              <Link href="/features" className="btn-outline text-sm px-6 py-2.5">Explore all features</Link>
-            </div>
-          </div>
-          <div className={`aspect-[4/3] rounded-2xl bg-gradient-to-br ${content.img} flex items-center justify-center border border-gray-100`}>
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-2xl bg-[#771BFF]/10 flex items-center justify-center mx-auto mb-4">
-                {active === 'ai' && <I.Spark c="w-8 h-8 text-[#771BFF]" />}
-                {active === 'agents' && <I.Eye c="w-8 h-8 text-[#771BFF]" />}
-                {active === 'tools' && <I.Cut c="w-8 h-8 text-[#771BFF]" />}
-                {active === 'render' && <I.Wand c="w-8 h-8 text-[#771BFF]" />}
-              </div>
-              <p className="text-sm text-gray-400">Interactive preview</p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
 }
 
-/* ═══ CAPABILITY CARDS ═══ */
-function CapabilityCards() {
+/* ═══════ HOW IT WORKS ═══════ */
+function HowItWorks() {
   return (
-    <section className="section-padding bg-gray-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <h2 className="section-title mb-4">Everything you need to <span className="gradient-purple">ship videos</span></h2>
-          <p className="section-subtitle max-w-2xl mx-auto">From AI analysis to final rendering — a complete production pipeline, free and open source.</p>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {CAPABILITIES.map(c => (
-            <div key={c.title} className="card-white p-6 hover:-translate-y-1">
-              <div className="w-11 h-11 rounded-xl bg-purple-50 flex items-center justify-center mb-4">
-                <c.icon c="w-5 h-5 text-[#771BFF]" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">{c.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{c.desc}</p>
-            </div>
-          ))}
-        </div>
-        <div className="text-center mt-12">
-          <Link href="/features" className="btn-primary">View all capabilities</Link>
-        </div>
-      </div>
-    </section>
-  );
-}
+    <section className="px-6 pb-24">
+      <div className="max-w-5xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+          className="text-center mb-14"
+        >
+          <span className="text-xs font-semibold tracking-widest uppercase text-cyan-400 mb-3 block">Pipeline</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            How the{' '}
+            <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">AI Agents</span> Work
+          </h2>
+          <p className="text-gray-400 max-w-xl mx-auto text-center">
+            5 steps from raw footage to cinema-ready video — all automated
+          </p>
+        </motion.div>
 
-/* ═══ AGENT PIPELINE ═══ */
-function AgentPipeline() {
-  const agents = [
-    { n: '01', icon: I.Eye, name: 'HKUDS VideoAgent', desc: 'Analyzes raw footage, detects scenes & objects, builds temporal video memory.', color: '#771BFF' },
-    { n: '02', icon: I.Script, name: 'FireRed-OpenStoryline', desc: 'Generates rhythm-aware narratives and emotional scripts with beat-synced storyboards.', color: '#A855F7' },
-    { n: '03', icon: I.Cut, name: 'video-use', desc: 'Executes jump cuts, 30ms audio fades, subtitle burns. Self-evaluates output.', color: '#06B6D4' },
-    { n: '04', icon: I.Wand, name: 'LTX Engine', desc: 'AI transitions, cinematic color grading, final H.264 1080p render.', color: '#10B981' },
-  ];
-
-  return (
-    <section className="section-padding bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <span className="text-xs font-semibold tracking-widest uppercase text-[#771BFF] mb-3 block">The Engine</span>
-          <h2 className="section-title mb-4">The <span className="gradient-purple">4-Agent</span> Pipeline</h2>
-          <p className="section-subtitle max-w-xl mx-auto">Each agent masters one craft. Together, they produce cinema.</p>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {agents.map((a, i) => (
-            <div key={a.n} className="card-white p-6 group cursor-pointer">
-              <div className="text-5xl font-black text-gray-100 mb-3">{a.n}</div>
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style={{ backgroundColor: `${a.color}15` }}>
-                <a.icon c="w-6 h-6" style={{ color: a.color }} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {agentSteps.map((s, i) => (
+            <motion.div
+              key={s.n}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="relative text-center rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-md p-5 hover:bg-white/[0.05] hover:border-purple-500/20 transition-all duration-300"
+            >
+              {/* Step number — positioned top-right, small, non-overlapping */}
+              <span className="absolute top-3 right-3 text-xs font-bold text-white/10 tracking-widest">{s.n}</span>
+              {/* Step marker */}
+              <div className="relative mb-3">
+                <div className={`w-14 h-14 rounded-2xl ${s.bg} bg-gradient-to-br ${s.gradient} flex items-center justify-center mx-auto ring-1 ring-white/[0.04]`}>
+                  <s.icon className={`w-7 h-7 ${s.color}`} />
+                </div>
               </div>
-              <h3 className="text-sm font-bold text-gray-900 mb-1">{a.name}</h3>
-              <p className="text-xs text-gray-500 leading-relaxed">{a.desc}</p>
-              {i < 3 && (
-                <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 text-gray-300 text-lg z-10">→</div>
+              <h3 className="text-white font-bold mb-1.5">{s.name}</h3>
+              <p className="text-xs text-gray-400 leading-relaxed">{s.desc}</p>
+              {/* Arrow between steps (desktop only) */}
+              {i < 4 && (
+                <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-10">
+                  <ChevronRight className="w-5 h-5 text-gray-700" />
+                </div>
               )}
-            </div>
-          ))}
-        </div>
-        <div className="flex flex-wrap justify-center gap-3 mt-12">
-          {['Upload Footage', 'AI Analysis', 'Script Writing', 'Auto Edit', 'Final Render'].map((step, i) => (
-            <div key={step} className="flex items-center">
-              <span className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-xs font-semibold text-gray-600">{step}</span>
-              {i < 4 && <span className="text-gray-300 mx-1.5">→</span>}
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -322,161 +245,203 @@ function AgentPipeline() {
   );
 }
 
-/* ═══ STATS ═══ */
-function StatsSection() {
+/* ═══════ VOICES SHOWCASE ═══════ */
+function VoicesShowcase() {
   return (
-    <section className="py-16 bg-white border-y border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
-          {STATS.map((s, i) => (
-            <div key={s.label} className="text-center">
-              <div className="text-4xl sm:text-5xl font-black text-gray-900 mb-1">
-                {s.suffix}{s.value}
+    <section className="px-6 pb-24">
+      <div className="max-w-5xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+          className="text-center mb-14"
+        >
+          <span className="text-xs font-semibold tracking-widest uppercase text-sky-400 mb-3 block">Voices</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            24{' '}
+            <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">AI Voices</span>
+          </h2>
+          <p className="text-gray-400 max-w-xl mx-auto text-center">
+            Arena AI Agent Mod — professional English & Burmese voiceovers with emotion control
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {voiceCards.map((v) => (
+            <motion.div
+              key={v.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: Math.random() * 0.3, duration: 0.5 }}
+              className="group rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-md p-4 text-center hover:bg-white/[0.05] hover:border-purple-500/20 hover:scale-[1.02] transition-all duration-300 cursor-pointer"
+            >
+              {/* Gradient avatar circle instead of emoji */}
+              <div className={`relative w-14 h-14 mx-auto mb-3 rounded-full bg-gradient-to-br ${v.color} ring-2 ${v.ring} ring-offset-1 ring-offset-[#050508] overflow-hidden`}>
+                {/* Initial letter */}
+                <span className="absolute inset-0 flex items-center justify-center text-white font-black text-lg">
+                  {v.name[0]}
+                </span>
               </div>
-              <div className="text-sm text-gray-500 font-medium">{s.label}</div>
-            </div>
+              <div className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">{v.name}</div>
+              <div className="text-[10px] text-gray-500 font-medium">{v.accent}</div>
+              <div className="text-[10px] text-purple-400/60 mt-0.5">{v.tag}</div>
+            </motion.div>
           ))}
+        </div>
+
+        <div className="text-center mt-8">
+          <Link
+            href="/create/step2"
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-purple-500/20 bg-purple-500/5 text-sm font-medium text-purple-300 hover:bg-purple-500/10 hover:border-purple-500/30 transition-all"
+          >
+            Browse all 24 voices + full voice settings
+            <ChevronRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
     </section>
   );
 }
 
-/* ═══ TESTIMONIALS ═══ */
-function Testimonials() {
-  return (
-    <section className="section-padding bg-gray-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="section-title text-center mb-14">Creators <span className="gradient-purple">love Vendora</span></h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map(t => (
-            <div key={t.name} className="card-white p-6">
-              <div className="flex gap-1 mb-3">
-                {[...Array(5)].map((_, i) => <I.Star key={i} c="w-4 h-4 text-amber-400" />)}
-              </div>
-              <blockquote className="text-sm text-gray-600 leading-relaxed mb-5 italic">"{t.quote}"</blockquote>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#771BFF]/10 flex items-center justify-center text-sm font-bold text-[#771BFF]">
-                  {t.name[0]}
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-gray-900">{t.name}</div>
-                  <div className="text-xs text-gray-500">{t.role} · {t.location}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══ PRICING ═══ */
-function Pricing() {
+/* ═══════ PRICING ═══════ */
+function PricingTier() {
   const tiers = [
-    { n: 'Free Forever', p: '฿0', sub: '0 Ks', d: 'All features. Zero cost.', f: ['4-agent AI pipeline', '24 voices', '4K export', 'Self-hosted', 'YouTube downloader', 'Community support'], cta: 'Start creating', href: '/create', hl: true },
-    { n: 'Codespace', p: '฿0', sub: '0 Ks', d: 'Cloud-hosted. Instant setup.', f: ['GitHub Codespace', 'Pre-configured', 'Always online', 'Public URL', 'Auto-updates', 'Community support'], cta: 'Deploy now', href: '/help', hl: false },
+    {
+      name: 'Self-Hosted', color: 'from-purple-500/20 to-violet-500/10', iconBg: 'bg-purple-500/15', iconColor: 'text-purple-400',
+      desc: 'Run on your machine. Full control.',
+      features: ['4-agent pipeline', '24 voices', '4K export', 'YouTube tools', 'Local processing'],
+      href: '/create/step1', highlight: false,
+    },
+    {
+      name: 'Codespace Cloud', color: 'from-cyan-500/20 to-sky-500/10', iconBg: 'bg-cyan-500/15', iconColor: 'text-cyan-400',
+      desc: 'Instant cloud setup. Zero config.',
+      features: ['GitHub Codespace', 'Always online', 'Public URL', 'Auto-updates', 'Same free tools'],
+      href: '/help', highlight: false,
+    },
   ];
 
   return (
-    <section className="section-padding bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <span className="text-xs font-semibold tracking-widest uppercase text-[#771BFF] mb-3 block">Pricing</span>
-          <h2 className="section-title mb-4"><span className="gradient-purple">Always</span> Free</h2>
-          <p className="section-subtitle max-w-xl mx-auto">No API keys. No subscriptions. No credit cards. Just install and create.</p>
-        </div>
+    <section className="px-6 pb-24">
+      <div className="max-w-5xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+          className="text-center mb-14"
+        >
+          <span className="text-xs font-semibold tracking-widest uppercase text-emerald-400 mb-3 block">Pricing</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            Always{' '}
+            <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Free</span>
+          </h2>
+          <p className="text-gray-400 max-w-xl mx-auto text-center">฿0 THB / 0 Ks MMK — forever. Open source, no tricks.</p>
+        </motion.div>
+
         <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-          {tiers.map(t => (
-            <div key={t.n} className={`relative p-8 rounded-2xl border-2 transition-all ${t.hl ? 'border-[#771BFF]/30 bg-purple-50/30' : 'border-gray-200 bg-white'}`}>
-              {t.hl && <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#771BFF] text-white text-xs font-bold rounded-full">Most Popular</div>}
-              <h3 className="text-xl font-bold text-gray-900 mb-1">{t.n}</h3>
-              <div className="flex items-baseline gap-1 mb-1">
-                <span className="text-4xl font-black text-[#771BFF]">{t.p}</span>
-                <span className="text-gray-400 text-sm">THB</span>
+          {tiers.map((t) => (
+            <motion.div
+              key={t.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+              className="group relative rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-md p-8 hover:bg-white/[0.05] hover:border-purple-500/20 transition-all duration-300"
+            >
+              {/* Card header with gradient + diagram */}
+              <div className={`relative h-32 -mx-8 -mt-8 mb-6 rounded-t-2xl overflow-hidden bg-gradient-to-br ${t.color}`}>
+                <svg className="absolute inset-0 w-full h-full opacity-[0.07]" viewBox="0 0 400 150">
+                  <line x1="100" y1="0" x2="100" y2="150" stroke="currentColor" strokeWidth="1" />
+                  <line x1="200" y1="0" x2="200" y2="150" stroke="currentColor" strokeWidth="1" />
+                  <line x1="300" y1="0" x2="300" y2="150" stroke="currentColor" strokeWidth="1" />
+                  <line x1="0" y1="75" x2="400" y2="75" stroke="currentColor" strokeWidth="1" />
+                </svg>
+                <div className={`absolute bottom-4 left-6 w-12 h-12 rounded-xl ${t.iconBg} flex items-center justify-center`}>
+                  {t.name === 'Self-Hosted' ? <Download className={`w-6 h-6 ${t.iconColor}`} /> : <Sparkles className={`w-6 h-6 ${t.iconColor}`} />}
+                </div>
               </div>
-              <div className="text-sm text-gray-500 mb-2">{t.sub} · forever</div>
-              <p className="text-sm text-gray-500 mb-6">{t.d}</p>
-              <ul className="space-y-3 mb-8">
-                {t.f.map(f => (
-                  <li key={f} className="flex items-center gap-2.5 text-sm text-gray-600"><I.Check c="w-4 h-4 text-green-500 flex-shrink-0" />{f}</li>
+
+              <h3 className="text-xl font-bold text-white mb-1">{t.name}</h3>
+              <div className="text-4xl font-black bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent mb-1">฿0</div>
+              <p className="text-sm text-gray-400 mb-6">{t.desc}</p>
+              <ul className="space-y-2.5 mb-8">
+                {t.features.map((f) => (
+                  <li key={f} className="flex items-center gap-2.5 text-sm text-gray-300">
+                    <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    {f}
+                  </li>
                 ))}
               </ul>
-              <Link href={t.href} className={`block text-center py-3 rounded-lg text-sm font-semibold transition-all ${t.hl ? 'bg-[#771BFF] text-white hover:bg-[#5B0FCC]' : 'border border-gray-300 text-gray-700 hover:border-[#771BFF] hover:text-[#771BFF]'}`}>{t.cta}</Link>
-            </div>
+              <Link
+                href={t.href}
+                className="block w-full py-3 text-center rounded-xl border border-purple-500/30 bg-purple-500/[0.08] text-purple-300 text-sm font-semibold hover:bg-purple-500/[0.15] hover:text-purple-200 hover:border-purple-500/50 transition-all"
+              >
+                Get Started Free
+              </Link>
+            </motion.div>
           ))}
         </div>
-        <p className="text-center text-sm text-gray-400 mt-6">Available in {LOCATION.flag} Thailand · 🇲🇲 Myanmar · 🌏 Worldwide</p>
+        <p className="text-center text-sm text-gray-600 mt-6">Available in 🇹🇭 Thailand · 🇲🇲 Myanmar · 🌏 Worldwide</p>
       </div>
     </section>
   );
 }
 
-/* ═══ CTA ═══ */
-function CTASection() {
+/* ═══════ CTA ═══════ */
+function FinalCTA() {
   return (
-    <section className="section-padding bg-gray-50/50">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="section-title mb-6">Ready to let AI<br /><span className="gradient-purple">edit your videos?</span></h2>
-        <p className="section-subtitle max-w-2xl mx-auto mb-10">Drop your footage. 4 AI agents handle everything. Open source. Free forever. Built for creators everywhere — including {LOCATION.flag} Thailand.</p>
-        <div className="flex flex-col sm:flex-row justify-center gap-3">
-          <Link href="/create" className="btn-primary px-10 py-4 text-base">Start creating — free</Link>
-          <Link href="/agent" className="btn-outline px-10 py-4 text-base">Meet the agents →</Link>
+    <section className="px-6 pb-24">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="max-w-3xl mx-auto relative overflow-hidden rounded-2xl border border-purple-500/15 bg-white/[0.03] backdrop-blur-xl p-12 md:p-16 text-center"
+      >
+        {/* Background glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/5 rounded-full blur-[100px]" />
+          <div className="absolute bottom-0 right-0 w-64 h-64 bg-cyan-500/3 rounded-full blur-[80px]" />
         </div>
-      </div>
-    </section>
-  );
-}
 
-/* ═══ FOOTER ═══ */
-function FooterSection() {
-  return (
-    <footer className="bg-white border-t border-gray-100 pt-16 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-[#771BFF] flex items-center justify-center font-bold text-sm text-white">V</div>
-              <span className="font-bold text-lg text-gray-900">Vendora</span>
-            </div>
-            <p className="text-sm text-gray-500 leading-relaxed max-w-xs mb-4">AI-powered video production studio. 4 agents, zero cost, infinite creativity. Open source forever.</p>
-            <div className="flex items-center gap-3 text-sm text-gray-400">
-              <span>{LOCATION.flag} Thailand</span><span>·</span><span>🇲🇲 Myanmar</span>
-            </div>
+        <div className="relative z-10">
+          {/* Play icon in a glass circle */}
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500/20 to-cyan-500/10 ring-1 ring-white/[0.06] mb-6">
+            <Play className="w-7 h-7 text-purple-400 ml-1" fill="currentColor" />
           </div>
-          {[
-            { t: 'Product', links: [['Features', '/features'], ['Showcase', '/showcase'], ['Pricing', '/pricing'], ['Agent', '/agent'], ['Docs', '/help']] },
-            { t: 'Tools', links: [['Video Editor', '/create'], ['Recap', '/recap'], ['Downloader', '/download'], ['Voices', '/features'], ['Script Writer', '/agent']] },
-            { t: 'Company', links: [['About', '/about'], ['Contact', '/contact'], ['GitHub', 'https://github.com/Kaunghtut25/vidora-ai'], ['Blog', '/blog']] },
-          ].map(c => (
-            <div key={c.t}><h4 className="text-sm font-bold text-gray-900 mb-4">{c.t}</h4><div className="space-y-3">{c.links.map(([label, href]) => <Link key={label} href={href} className="block text-sm text-gray-500 hover:text-gray-900 transition-colors">{label}</Link>)}</div></div>
-          ))}
+
+          <h2 className="text-2xl md:text-4xl font-bold mb-4">
+            Ready to let AI{' '}
+            <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
+              edit your videos?
+            </span>
+          </h2>
+          <p className="text-gray-400 max-w-md mx-auto mb-8 text-center leading-relaxed">
+            Drop your footage. 4 AI agents handle everything. Open source. Free forever.
+          </p>
+          <Link
+            href="/create/step1"
+            className="inline-flex items-center gap-2 px-8 py-3.5 bg-purple-600 hover:bg-purple-500 rounded-full text-white font-semibold transition-all shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-[1.02]"
+          >
+            Start Creating — Free
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
-        <div className="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-400">© 2026 Vendora AI · Built with CrewAI + Ollama + FFmpeg</p>
-          <div className="flex items-center gap-5 text-xs text-gray-400"><span>Open Source</span><span>·</span><span>Free Forever</span><span>·</span><span>No API Keys</span></div>
-        </div>
-      </div>
-    </footer>
+      </motion.div>
+    </section>
   );
 }
 
 /* ═══════ PAGE ═══════ */
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-white text-gray-900 antialiased">
+    <>
       <Navbar />
-      <Hero />
-      <PartnerScroll />
-      <TabbedFeatures />
-      <CapabilityCards />
-      <AgentPipeline />
-      <StatsSection />
-      <Testimonials />
-      <Pricing />
-      <CTASection />
-      <FooterSection />
-    </main>
+      <main className="bg-[#050508]">
+        <Hero />
+        <FeaturesSection />
+        <HowItWorks />
+        <VoicesShowcase />
+        <PricingTier />
+        <FinalCTA />
+      </main>
+      <Footer />
+    </>
   );
 }

@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Vidora AI — Turn Ideas Into Cinematic Videos</title>
+<style>
+  :root {
+    --purple:#8B5CF6; --cyan:#06B6D4; --pink:#EC4899; --amber:#F59E0B;
+    --green:#10B981; --bg:#040407; --bg2:#0A0A12; --surface:#12121B;
+    --border:#1E1E2E; --border2:#2A2A3C; --text:#FFFFFF;
+    --text2:#A1A1B0; --text3:#64647A;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    background:var(--bg); color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.6; overflow-x:hidden;
+  }
+  .container { max-width:1240px; margin:0 auto; padding:0 28px; }
+
+  /* ========== NAVBAR ========== */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:999; height:68px;
+    background:rgba(4,4,7,0.88); backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    display:flex; align-items:center;
+  }
+  nav .container { display:flex; align-items:center; justify-content:space-between; width:100%; }
+  .logo { display:flex; align-items:center; gap:11px; text-decoration:none; }
+  .logo-mark {
+    width:36px; height:36px;
+    background:linear-gradient(135deg,#8B5CF6 0%,#A855F7 60%,#06B6D4 100%);
+    border-radius:11px; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 15px rgba(139,92,246,0.35);
+  }
+  .logo-mark svg { width:17px; height:17px; color:#fff; }
+  .logo-text { font-size:21px; font-weight:800; color:#fff; letter-spacing:-0.3px; }
+  .logo-text em { font-style:normal; background:linear-gradient(135deg,#A855F7,#06B6D4); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .nav-links { display:flex; gap:34px; list-style:none; align-items:center; }
+  .nav-links a { color:var(--text2); text-decoration:none; font-size:13.5px; font-weight:500; transition:color .2s; letter-spacing:0.1px; }
+  .nav-links a:hover { color:#fff; }
+  .nav-cta { display:flex; align-items:center; gap:10px; }
+  .btn {
+    padding:10px 22px; border-radius:50px; font-size:13.5px; font-weight:600;
+    text-decoration:none; transition:all .25s; cursor:pointer; border:none;
+    display:inline-flex; align-items:center; gap:6px; font-family:inherit;
+  }
+  .btn-primary {
+    background:linear-gradient(135deg,#8B5CF6,#7C3AED);
+    color:#fff; box-shadow:0 2px 12px rgba(139,92,246,0.3);
+  }
+  .btn-primary:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(139,92,246,0.45); }
+  .btn-ghost { background:transparent; color:var(--text2); }
+  .btn-ghost:hover { color:#fff; }
+  .btn-lg { padding:14px 30px; font-size:15px; }
+
+  /* ========== HERO ========== */
+  .hero {
+    min-height:100vh; display:flex; align-items:center; position:relative;
+    padding:120px 0 80px; overflow:hidden;
+  }
+  /* Animated mesh background */
+  .hero::before {
+    content:''; position:absolute; inset:0; z-index:0;
+    background:
+      radial-gradient(ellipse 600px 500px at 20% 30%, rgba(139,92,246,0.18), transparent),
+      radial-gradient(ellipse 500px 400px at 80% 70%, rgba(6,182,212,0.12), transparent),
+      radial-gradient(ellipse 400px 350px at 60% 20%, rgba(236,72,153,0.08), transparent),
+      radial-gradient(ellipse 700px 600px at 50% 50%, rgba(139,92,246,0.04), transparent);
+  }
+  .hero-grid {
+    position:absolute; inset:0; z-index:0; opacity:0.35;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 70%);
+    -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 70%);
+  }
+  .hero-content { position:relative; z-index:2; max-width:680px; }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.25);
+    border-radius:60px; padding:6px 18px; font-size:12.5px; color:#B794F4;
+    margin-bottom:28px; font-weight:500; letter-spacing:0.2px;
+  }
+  .hero-badge .dot {
+    width:7px; height:7px; background:#10B981; border-radius:50%;
+    box-shadow:0 0 8px rgba(16,185,129,0.5); animation:pulse-dot 2.5s ease infinite;
+  }
+  .hero h1 {
+    font-size:clamp(38px, 6.5vw, 68px); font-weight:900;
+    line-height:1.08; letter-spacing:-1.8px; margin-bottom:22px;
+  }
+  .hero h1 .grad {
+    background:linear-gradient(160deg, #A855F7 0%, #8B5CF6 30%, #06B6D4 70%, #22D3EE 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+  }
+  .hero p {
+    font-size:18px; color:var(--text2); max-width:540px;
+    line-height:1.7; margin-bottom:38px;
+  }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+  .hero-btns .play-btn {
+    display:inline-flex; align-items:center; gap:8px;
+    color:var(--text2); font-size:14px; font-weight:500; text-decoration:none;
+    transition:color .2s;
+  }
+  .hero-btns .play-btn:hover { color:#fff; }
+  .play-circle {
+    width:38px; height:38px; border-radius:50%;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
+    display:flex; align-items:center; justify-content:center;
+    transition:all .25s;
+  }
+  .play-btn:hover .play-circle { border-color:rgba(139,92,246,0.5); background:rgba(139,92,246,0.1); }
+  .hero-stats { display:flex; gap:48px; margin-top:56px; }
+  .hero-stat-value { font-size:30px; font-weight:900; letter-spacing:-1px;
+    background:linear-gradient(135deg,var(--purple),var(--cyan));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .hero-stat-label { font-size:12.5px; color:var(--text3); margin-top:2px; font-weight:500; }
+
+  /* Floating cards behind hero */
+  .float-card {
+    position:absolute; z-index:1; pointer-events:none;
+    background:rgba(18,18,27,0.7); border:1px solid rgba(255,255,255,0.06);
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-radius:14px; padding:14px 18px;
+    box-shadow:0 8px 40px rgba(0,0,0,0.3);
+  }
+  .float-card .fc-header { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .float-card .fc-dot { width:8px; height:8px; border-radius:50%; }
+  .float-card .fc-dot.red { background:#EF4444; } .float-card .fc-dot.yellow { background:#F59E0B; } .float-card .fc-dot.green { background:#10B981; }
+  .float-card .fc-bar { height:3px; border-radius:2px; background:rgba(255,255,255,0.08); margin-bottom:6px; }
+  .float-card .fc-bar.fill { background:linear-gradient(90deg,var(--purple),var(--pink)); width:65%; }
+  .float-card .fc-lines { display:flex; flex-direction:column; gap:4px; }
+  .float-card .fc-line { height:2px; border-radius:1px; background:rgba(255,255,255,0.06); }
+  .fc-1 { right:8%; top:22%; animation:float1 7s ease-in-out infinite; }
+  .fc-2 { right:18%; top:42%; animation:float2 8s ease-in-out infinite; }
+  .fc-3 { right:6%; top:60%; animation:float1 9s ease-in-out infinite; }
+  @keyframes float1 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-18px) rotate(1deg)} }
+  @keyframes float2 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-14px) rotate(-1deg)} }
+  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.3)} }
+
+  /* ========== SECTION HEADERS ========== */
+  .section-header { text-align:center; margin-bottom:64px; }
+  .section-tag {
+    display:inline-block; background:rgba(139,92,246,0.08);
+    border:1px solid rgba(139,92,246,0.18); color:#B794F4;
+    padding:5px 16px; border-radius:60px; font-size:12px; font-weight:600;
+    margin-bottom:16px; letter-spacing:0.3px; text-transform:uppercase;
+  }
+  .section-title { font-size:clamp(28px,4vw,44px); font-weight:900; letter-spacing:-0.8px; margin-bottom:14px; }
+  .section-sub { color:var(--text2); font-size:17px; max-width:540px; margin:0 auto; }
+
+  /* ========== FEATURES ========== */
+  #features { padding:120px 0; position:relative; }
+  #features::before {
+    content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:800px; height:400px;
+    background:radial-gradient(ellipse, rgba(139,92,246,0.07), transparent 70%);
+    pointer-events:none;
+  }
+  .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border-radius:20px; overflow:hidden; border:1px solid var(--border); }
+  .feature-item {
+    background:var(--surface); padding:40px 32px; position:relative;
+    transition:all .35s; cursor:default;
+  }
+  .feature-item:hover { background:#161625; }
+  .feature-item:hover::after {
+    content:''; position:absolute; inset:-1px; border-radius:inherit;
+    background:linear-gradient(135deg, rgba(139,92,246,0.4), transparent, rgba(6,182,212,0.2));
+    z-index:-1; opacity:0; transition:opacity .35s;
+  }
+  .feature-icon {
+    width:50px; height:50px; border-radius:14px; display:flex;
+    align-items:center; justify-content:center; font-size:24px; margin-bottom:22px;
+  }
+  .feature-item h3 { font-size:17px; font-weight:700; margin-bottom:8px; letter-spacing:-0.2px; }
+  .feature-item p { color:var(--text2); font-size:14px; line-height:1.7; }
+
+  /* ========== HOW IT WORKS ========== */
+  #how { padding:120px 0; background:var(--bg2); position:relative; }
+  .steps { max-width:900px; margin:0 auto; }
+  .step-row { display:flex; gap:28px; padding:32px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+  .step-row:last-child { border:none; }
+  .step-num {
+    width:58px; height:58px; border-radius:16px; flex-shrink:0;
+    background:linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.08));
+    border:1px solid rgba(139,92,246,0.25);
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; font-weight:900; color:var(--purple);
+  }
+  .step-row h3 { font-size:20px; font-weight:700; margin-bottom:6px; }
+  .step-row p { color:var(--text2); font-size:15px; line-height:1.7; }
+  .step-illustration {
+    width:120px; height:80px; border-radius:12px; flex-shrink:0;
+    background:var(--surface); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-size:32px;
+  }
+
+  /* ========== VOICES ========== */
+  #voices { padding:120px 0; }
+  .voices-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .voice-card {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:18px; padding:28px 20px; text-align:center;
+    transition:all .3s; cursor:pointer;
+  }
+  .voice-card:hover { border-color:rgba(139,92,246,0.4); transform:translateY(-3px); box-shadow:0 12px 40px rgba(139,92,246,0.08); }
+  .voice-avatar {
+    width:62px; height:62px; border-radius:50%; margin:0 auto 14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; font-weight:800; color:#fff;
+  }
+  .voice-card h4 { font-size:15px; font-weight:700; }
+  .voice-card .voice-lang { font-size:12px; color:var(--text3); margin-top:5px; }
+  .voice-card .voice-flag { font-size:13px; color:var(--text2); margin-top:6px; font-weight:500; }
+
+  /* ========== PRICING ========== */
+  #pricing { padding:120px 0; background:var(--bg2); }
+  .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .plan {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:22px; padding:38px 32px; position:relative; transition:all .35s;
+  }
+  .plan.featured {
+    border-color:rgba(139,92,246,0.45);
+    box-shadow:0 0 50px rgba(139,92,246,0.1);
+    transform:scale(1.03);
+    background:linear-gradient(180deg, rgba(139,92,246,0.04), var(--surface) 40%);
+  }
+  .plan.featured::before {
+    content:'MOST POPULAR'; position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+    background:linear-gradient(135deg,var(--purple),var(--cyan));
+    padding:5px 18px; border-radius:50px; font-size:11px; font-weight:700; color:#fff;
+    letter-spacing:0.5px;
+  }
+  .plan-name { font-size:20px; font-weight:800; margin-bottom:4px; }
+  .plan-desc { color:var(--text3); font-size:13.5px; margin-bottom:24px; }
+  .plan-price { font-size:46px; font-weight:900; letter-spacing:-1px; line-height:1; }
+  .plan-price span { font-size:15px; color:var(--text3); font-weight:400; }
+  .plan-features { list-style:none; margin:28px 0 32px; }
+  .plan-features li { padding:7px 0; color:var(--text2); font-size:13.5px; display:flex; align-items:center; gap:10px; }
+  .plan-features li svg { width:16px; height:16px; color:var(--green); flex-shrink:0; }
+  .plan .btn { display:block; text-align:center; width:100%; }
+
+  /* ========== TESTIMONIALS ========== */
+  #testimonials { padding:120px 0; }
+  .testimonials-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .testimonial {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:18px; padding:30px; transition:all .3s;
+  }
+  .testimonial:hover { border-color:rgba(139,92,246,0.3); }
+  .testimonial .stars { color:var(--amber); font-size:14px; letter-spacing:2px; margin-bottom:14px; }
+  .testimonial .quote { color:var(--text2); font-size:14.5px; line-height:1.7; font-style:italic; margin-bottom:22px; }
+  .testimonial .author { display:flex; align-items:center; gap:12px; }
+  .testimonial .author-avatar { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; color:#fff; }
+  .testimonial .author-name { font-size:14px; font-weight:700; }
+  .testimonial .author-role { font-size:12px; color:var(--text3); }
+
+  /* ========== CTA ========== */
+  #cta { padding:100px 0 120px; }
+  .cta-box {
+    background:linear-gradient(160deg, rgba(139,92,246,0.07) 0%, rgba(6,182,212,0.04) 50%, rgba(236,72,153,0.03) 100%);
+    border:1px solid rgba(139,92,246,0.15);
+    border-radius:28px; padding:72px 48px; text-align:center;
+    position:relative; overflow:hidden;
+  }
+  .cta-box::before {
+    content:''; position:absolute; top:-140px; right:-140px;
+    width:350px; height:350px; background:rgba(139,92,246,0.12);
+    border-radius:50%; filter:blur(80px);
+  }
+  .cta-box::after {
+    content:''; position:absolute; bottom:-100px; left:-100px;
+    width:280px; height:280px; background:rgba(6,182,212,0.08);
+    border-radius:50%; filter:blur(70px);
+  }
+  .cta-box h2 { font-size:clamp(28px,4vw,42px); font-weight:900; position:relative; z-index:1; letter-spacing:-0.5px; }
+  .cta-box p { color:var(--text2); font-size:17px; margin:16px 0 36px; position:relative; z-index:1; }
+  .cta-box .btn { position:relative; z-index:1; }
+
+  /* ========== FOOTER ========== */
+  footer {
+    background:var(--bg2); border-top:1px solid var(--border);
+    padding:72px 0 36px;
+  }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; }
+  .footer-brand p { color:var(--text3); font-size:13.5px; margin-top:18px; max-width:280px; line-height:1.8; }
+  footer h4 { font-size:12px; text-transform:uppercase; letter-spacing:0.8px; color:var(--text2); margin-bottom:18px; font-weight:600; }
+  footer ul { list-style:none; }
+  footer li { margin-bottom:10px; }
+  footer a { color:var(--text3); text-decoration:none; font-size:13.5px; transition:color .2s; }
+  footer a:hover { color:var(--purple); }
+  .footer-bottom {
+    margin-top:52px; padding-top:28px; border-top:1px solid var(--border);
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--text3); font-size:12.5px;
+  }
+  .footer-social { display:flex; gap:12px; }
+
+  /* ========== MOBILE ========== */
+  @media (max-width:1024px) {
+    .features-grid { grid-template-columns:repeat(2,1fr); }
+    .voices-grid { grid-template-columns:repeat(2,1fr); }
+    .testimonials-grid { grid-template-columns:1fr; }
+    .float-card { display:none; }
+  }
+  @media (max-width:768px) {
+    .nav-links { display:none; }
+    .features-grid { grid-template-columns:1fr; }
+    .voices-grid { grid-template-columns:repeat(2,1fr); }
+    .pricing-grid { grid-template-columns:1fr; }
+    .plan.featured { transform:none; }
+    .footer-grid { grid-template-columns:1fr 1fr; gap:32px; }
+    .hero-stats { gap:28px; }
+    .cta-box { padding:48px 28px; }
+    .hero { padding-top:100px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <div class="container">
+    <a href="#" class="logo">
+      <div class="logo-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+      <span class="logo-text">Vidora<em>AI</em></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#voices">Voices</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="login.html" class="btn btn-ghost">Sign In</a>
+      <a href="signup.html" class="btn btn-primary">Start Free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-grid"></div>
+
+  <!-- Floating cards -->
+  <div class="float-card fc-1">
+    <div class="fc-header"><span class="fc-dot red"></span><span class="fc-dot yellow"></span><span class="fc-dot green"></span></div>
+    <div class="fc-bar fill"></div>
+    <div class="fc-lines"><span class="fc-line" style="width:80%"></span><span class="fc-line" style="width:55%"></span><span class="fc-line" style="width:70%"></span></div>
+  </div>
+  <div class="float-card fc-2" style="padding:12px 16px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#EC4899,#F97316);display:flex;align-items:center;justify-content:center;">▶</div>
+      <div><div style="font-size:12px;font-weight:700;">AI Script</div><div style="font-size:10px;color:#64A;">2:34</div></div>
+    </div>
+  </div>
+  <div class="float-card fc-3" style="padding:10px 14px;">
+    <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+      <span style="background:rgba(139,92,246,0.2);padding:3px 8px;border-radius:4px;font-weight:600;">🇲🇲 Burmese</span>
+      <span style="color:var(--text3);">99% match</span>
+    </div>
+    <div style="display:flex;gap:6px;margin-top:8px;">
+      <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#8B5CF6,#A855F7);"></div>
+      <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#06B6D4,#22D3EE);"></div>
+      <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#F59E0B,#F97316);"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span> Now with Burmese AI Voices — 4 native speakers</div>
+      <h1>Create Cinematic<br>Videos with <span class="grad">AI Magic</span></h1>
+      <p>Paste any URL, upload a script, or describe your idea. Vidora AI researches, writes, narrates, and produces professional videos — all in minutes, not days.</p>
+      <div class="hero-btns">
+        <a href="signup.html" class="btn btn-primary btn-lg">Start Creating Free →</a>
+        <a href="#how" class="play-btn">
+          <span class="play-circle"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          See how it works
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hero-stat-value">12</div><div class="hero-stat-label">AI Voices<br>EN + Burmese</div></div>
+        <div><div class="hero-stat-value">3 min</div><div class="hero-stat-label">Avg Generation<br>per Video</div></div>
+        <div><div class="hero-stat-value">50K+</div><div class="hero-stat-label">Videos Created<br>by Creators</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section id="features">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Core Features</span>
+      <h2 class="section-title">Everything You Need to Create</h2>
+      <p class="section-sub">Professional AI tools that replace expensive studios, voice actors, and hours of editing.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(139,92,246,0.12);">🧠</div>
+        <h3>Deep Research AI</h3>
+        <p>Enter a topic and our AI scours the web for facts, stats, and expert insights — building compelling, accurate scripts automatically.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(6,182,212,0.12);">🎬</div>
+        <h3>Cinematic B-Roll</h3>
+        <p>AI-generated visuals, kinetic typography, and scene compositions that look like they came from a $10K production studio.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(236,72,153,0.12);">🎤</div>
+        <h3>12 AI Voices</h3>
+        <p>8 English + 4 Burmese voices with emotion control, speed tuning, and real-time preview. The most natural AI voices available.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(245,158,11,0.12);">✂️</div>
+        <h3>Transcript Editor</h3>
+        <p>Edit your video by editing text. Rearrange chapters, swap visuals, fine-tune timing — as simple as editing a document.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(16,185,129,0.12);">🌐</div>
+        <h3>Bilingual Workflows</h3>
+        <p>Create in English, Burmese, or mix both. Our AI auto-detects language switches and adjusts pronunciation perfectly.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:rgba(99,102,241,0.12);">⚡</div>
+        <h3>Instant Export</h3>
+        <p>Download in 1080p/4K, MP4/MOV, vertical or horizontal. Optimized presets for YouTube, TikTok, Instagram, and Facebook.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section id="how">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Workflow</span>
+      <h2 class="section-title">From Idea to Video in Minutes</h2>
+      <p class="section-sub">Four simple steps. Zero technical skills required.</p>
+    </div>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div style="flex:1">
+          <h3>Paste Your Content</h3>
+          <p>Drop in any URL, upload a document, paste a script, or just type your idea. Our AI does the research and writes a compelling script tailored to your audience.</p>
+        </div>
+        <div class="step-illustration">📄→📝</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div style="flex:1">
+          <h3>Choose Style &amp; Voice</h3>
+          <p>Pick from 12 AI voices, select a visual style, set video length and tone. Preview your voiceover in real-time before generating.</p>
+        </div>
+        <div class="step-illustration">🎤🎨</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div style="flex:1">
+          <h3>AI Generation</h3>
+          <p>Watch as Vidora generates your complete video — voiceover, visuals, captions, and transitions — synced perfectly in real-time.</p>
+        </div>
+        <div class="step-illustration">⚙️🎥</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div style="flex:1">
+          <h3>Edit &amp; Export</h3>
+          <p>Fine-tune in the transcript editor, swap B-roll clips, add your brand overlay and music, then export in your preferred format.</p>
+        </div>
+        <div class="step-illustration">✂️📤</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VOICES ===== -->
+<section id="voices">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">AI Voices</span>
+      <h2 class="section-title">12 Voices. Two Languages.</h2>
+      <p class="section-sub">Natural, expressive AI narration with emotion, tone, and speed control.</p>
+    </div>
+    <div class="voices-grid">
+      <div class="voice-card">
+        <div class="voice-avatar" style="background:linear-gradient(135deg,#8B5CF6,#A855F7);">S</div>
+        <h4>Sophia</h4><div class="voice-lang">English · Female</div>
+        <div class="voice-flag">Warm &amp; Engaging</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-avatar" style="background:linear-gradient(135deg,#3B82F6,#6366F1);">J</div>
+        <h4>James</h4><div class="voice-lang">English · Male</div>
+        <div class="voice-flag">Deep &amp; Professional</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-avatar" style="background:linear-gradient(135deg,#EC4899,#F472B6);">E</div>
+        <h4>Emma</h4><div class="voice-lang">English · Female</div>
+        <div class="voice-flag">Energetic &amp; Youthful</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-avatar" style="background:linear-gradient(135deg,#F59E0B,#F97316);">D</div>
+        <h4>Daniel</h4><div class="voice-lang">English · Male</div>
+        <div class="voice-flag">Casual &amp; Friendly</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-avatar" style="background:linear-gradient(135deg,#10B981,#34D399);">အ</div>
+        <h4>Aye Myat</h4><div class="voice-lang">Burmese · Female</div>
+        <div class="voice-flag">နွေးထွေးသော · Warm</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-avatar" style="background:linear-gradient(135deg,#06B6D4,#22D3EE);">က</div>
+        <h4>Ko Ko</h4><div class="voice-lang">Burmese · Male</div>
+        <div class="voice-flag">တက်ကြွသော · Energetic</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-avatar" style="background:linear-gradient(135deg,#6366F1,#818CF8);">သ</div>
+        <h4>Thida</h4><div class="voice-lang">Burmese · Female</div>
+        <div class="voice-flag">ပရော်ဖက်ရှင်နယ် · Pro</div>
+      </div>
+      <div class="voice-card">
+        <div class="voice-avatar" style="background:linear-gradient(135deg,#F59E0B,#D97706);">မ</div>
+        <h4>Min Thu</h4><div class="voice-lang">Burmese · Male</div>
+        <div class="voice-flag">အခွင့်အာဏာရှိသော · Authoritative</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Pricing</span>
+      <h2 class="section-title">Simple, Transparent Pricing</h2>
+      <p class="section-sub">Start free. Upgrade when you need more firepower.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-desc">Try Vidora risk-free</div>
+        <div class="plan-price">$0<span>/mo</span></div>
+        <ul class="plan-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>3 videos per month</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>8 English AI voices</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>720p export</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Basic editor</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>5 min max length</li>
+        </ul>
+        <a href="signup.html" class="btn" style="background:transparent;border:1px solid var(--border);color:#fff;">Get Started</a>
+      </div>
+      <div class="plan featured">
+        <div class="plan-name">Pro</div>
+        <div class="plan-desc">For serious creators</div>
+        <div class="plan-price">$19<span>/mo</span></div>
+        <ul class="plan-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Unlimited videos</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>12 voices (EN + Burmese)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>1080p/4K export</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Full editor + effects</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Deep Research mode</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>30 min max length</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Priority support</li>
+        </ul>
+        <a href="signup.html" class="btn btn-primary">Start Pro</a>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-desc">For teams &amp; agencies</div>
+        <div class="plan-price">$49<span>/mo</span></div>
+        <ul class="plan-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Everything in Pro</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Custom voice training</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Team collaboration</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>API access</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Brand kit upload</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Dedicated support</li>
+        </ul>
+        <a href="contact.html" class="btn" style="background:transparent;border:1px solid var(--border);color:#fff;">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Testimonials</span>
+      <h2 class="section-title">Loved by Creators Worldwide</h2>
+      <p class="section-sub">Join thousands of creators who transformed their workflow with Vidora.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Vidora cut my video production time from 4 hours to 20 minutes. The Burmese voices are incredibly natural — my audience can't tell it's AI. Game changer for Myanmar creators."</p>
+        <div class="author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#8B5CF6,#A855F7);">AM</div>
+          <div><div class="author-name">Aye Myat</div><div class="author-role">YouTube Creator · 120K subscribers</div></div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="quote">"I run 3 faceless YouTube channels. Vidora handles everything — research, script, voiceover, visuals. I just review and hit publish. It's like having a production team on autopilot."</p>
+        <div class="author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#06B6D4,#22D3EE);">JD</div>
+          <div><div class="author-name">James D.</div><div class="author-role">Faceless Channel Owner</div></div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <p class="quote">"The bilingual feature is perfect for our Myanmar market. We create in Burmese and English simultaneously with one workflow. Vidora understands our local context better than any other tool."</p>
+        <div class="author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#EC4899,#F472B6);">MT</div>
+          <div><div class="author-name">Min Thu</div><div class="author-role">Content Strategist · Agency Owner</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Ready to Transform Your Video Workflow?</h2>
+      <p>Join thousands of creators. Start free — no credit card, no commitment.</p>
+      <a href="signup.html" class="btn btn-primary btn-lg">Start Creating Free →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <div class="logo-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+          <span class="logo-text">Vidora<em>AI</em></span>
+        </a>
+        <p>Create stunning videos with AI-powered research, script writing, voiceovers, and production tools. Built for creators who demand quality and speed.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#voices">Voices</a></li>
+          <li><a href="#">API</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Vidora AI. All rights reserved.</span>
+      <div class="footer-social">
+        <span style="color:var(--text3);">Made with ❤️ in Yangon, Myanmar</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

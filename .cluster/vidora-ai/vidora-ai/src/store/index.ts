@@ -29,8 +29,8 @@ interface AppState {
   setVoiceSettings: (settings: Partial<VoiceSettings>) => void;
   videoStyle: VideoStyle;
   setVideoStyle: (style: VideoStyle) => void;
-  projectLanguage: 'English' | 'Bilingual';
-  setProjectLanguage: (lang: 'English' | 'Bilingual') => void;
+  projectLanguage: 'English' | 'Burmese' | 'Bilingual';
+  setProjectLanguage: (lang: 'English' | 'Burmese' | 'Bilingual') => void;
   deepResearch: boolean;
   setDeepResearch: (enabled: boolean) => void;
 

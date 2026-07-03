@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Vidora AI Blog</title>
+<style>
+  :root { --purple:#8B5CF6; --cyan:#06B6D4; --pink:#EC4899; --amber:#F59E0B; --green:#10B981; --bg:#050508; --bg2:#0A0A0F; --surface:#111118; --border:#1F1F2E; --text:#fff; --text2:#A1A1AA; --text3:#71717A; }
+  *{margin:0;padding:0;box-sizing:border-box} body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.6}
+  .navbar{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;background:rgba(5,5,8,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px;width:100%}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--purple),var(--cyan));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff}
+  .logo-text{font-weight:900;font-size:20px;color:#fff}
+  .page-hero{min-height:40vh;display:flex;align-items:center;padding-top:64px;position:relative;overflow:hidden}
+  .page-hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:500px;height:500px;background:rgba(139,92,246,.1);border-radius:50%;filter:blur(100px)}
+  .page-hero-content{position:relative;z-index:1;text-align:center;max-width:700px;margin:0 auto}
+  .page-hero h1{font-size:clamp(32px,5vw,52px);font-weight:900}
+  .page-hero h1 span{background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .page-hero p{color:var(--text2);font-size:18px;margin-top:12px}
+  .posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;padding-bottom:80px}
+  .post-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+  .post-card:hover{border-color:rgba(139,92,246,.4);transform:translateY(-4px);box-shadow:0 8px 30px rgba(139,92,246,.1)}
+  .post-thumb{height:180px;display:flex;align-items:center;justify-content:center;font-size:48px}
+  .post-body{padding:24px}
+  .post-tag{display:inline-block;padding:3px 12px;border-radius:50px;font-size:12px;font-weight:600;margin-bottom:12px}
+  .post-tag.tutorial{background:rgba(139,92,246,.15);color:var(--purple)}.post-tag.guide{background:rgba(16,185,129,.15);color:var(--green)}.post-tag.comparison{background:rgba(245,158,11,.15);color:var(--amber)}.post-tag.trends{background:rgba(236,72,153,.15);color:var(--pink)}
+  .post-card h3{font-size:18px;font-weight:700;margin-bottom:8px;line-height:1.4}
+  .post-card p{color:var(--text2);font-size:14px;line-height:1.6}
+  .post-meta{color:var(--text3);font-size:12px;margin-top:16px;display:flex;gap:16px}
+  footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text3);font-size:13px}
+</style></head>
+<body>
+
+<nav class="navbar">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between">
+    <a href="index.html" class="logo"><div class="logo-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><span class="logo-text">Vidora<span style="background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent">AI</span></span></a>
+    <a href="index.html" style="color:var(--text2);text-decoration:none;font-size:14px">← Back</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-content">
+    <h1>Vidora <span>Blog</span></h1>
+    <p>Tips, tutorials, and AI video insights</p>
+  </div>
+</section>
+
+<div class="container">
+  <div class="posts">
+    <a href="#" class="post-card" onclick="alert('Full article coming soon!')">
+      <div class="post-thumb" style="background:linear-gradient(135deg,#8B5CF6,#A855F7)">🎬</div>
+      <div class="post-body">
+        <span class="post-tag tutorial">Tutorial</span>
+        <h3>How to Create Viral Shorts with AI in 2026</h3>
+        <p>Master the complete workflow from script to export using AI tools.</p>
+        <div class="post-meta"><span>Jun 28, 2026</span><span>5 min read</span></div>
+      </div>
+    </a>
+    <a href="#" class="post-card" onclick="alert('Full article coming soon!')">
+      <div class="post-thumb" style="background:linear-gradient(135deg,#06B6D4,#22D3EE)">🇲🇲</div>
+      <div class="post-body">
+        <span class="post-tag guide">Guide</span>
+        <h3>The Ultimate Guide to Burmese AI Voiceovers</h3>
+        <p>Everything you need to know about creating professional Burmese voiceovers.</p>
+        <div class="post-meta"><span>Jun 25, 2026</span><span>8 min read</span></div>
+      </div>
+    </a>
+    <a href="#" class="post-card" onclick="alert('Full article coming soon!')">
+      <div class="post-thumb" style="background:linear-gradient(135deg,#F59E0B,#F97316)">⚔️</div>
+      <div class="post-body">
+        <span class="post-tag comparison">Comparison</span>
+        <h3>Seedance 2.0 vs Vidu: Which AI Video Tool Wins?</h3>
+        <p>We tested both extensively with real production workflows. Here's our verdict.</p>
+        <div class="post-meta"><span>Jun 22, 2026</span><span>6 min read</span></div>
+      </div>
+    </a>
+    <a href="#" class="post-card" onclick="alert('Full article coming soon!')">
+      <div class="post-thumb" style="background:linear-gradient(135deg,#EC4899,#F472B6)">📈</div>
+      <div class="post-body">
+        <span class="post-tag trends">Trends</span>
+        <h3>10 AI Video Trends Every Creator Should Know</h3>
+        <p>Stay ahead with the latest AI video trends shaping the creator economy.</p>
+        <div class="post-meta"><span>Jun 18, 2026</span><span>4 min read</span></div>
+      </div>
+    </a>
+    <a href="#" class="post-card" onclick="alert('Full article coming soon!')">
+      <div class="post-thumb" style="background:linear-gradient(135deg,#10B981,#34D399)">🏗️</div>
+      <div class="post-body">
+        <span class="post-tag guide">Engineering</span>
+        <h3>How We Built Vidora AI — Technical Deep Dive</h3>
+        <p>Behind the scenes of building an AI video platform with Next.js and Python.</p>
+        <div class="post-meta"><span>Jun 15, 2026</span><span>12 min read</span></div>
+      </div>
+    </a>
+    <a href="#" class="post-card" onclick="alert('Full article coming soon!')">
+      <div class="post-thumb" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">🎯</div>
+      <div class="post-body">
+        <span class="post-tag tutorial">Workflow</span>
+        <h3>From Script to Screen: Complete AI Video Workflow</h3>
+        <p>Step-by-step guide to our proven AI video production pipeline.</p>
+        <div class="post-meta"><span>Jun 10, 2026</span><span>7 min read</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<footer>© 2026 Vidora AI · Made with ❤️ in Yangon, Myanmar</footer>
+</body></html>

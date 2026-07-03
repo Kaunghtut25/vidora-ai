@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Clock, Palette, Globe, Play, Pause, Gauge, Heart } from 'lucide-react';
 import { useAppStore } from '@/store';
-import { voices, emotions } from '@/data/voices';
+import { voices, burmeseVoices, emotions } from '@/data/voices';
 import { playVoicePreview, stopVoicePreview } from '@/lib/voice-audio';
 import type { Voice, VideoLength, VideoStyle, VoiceEmotion } from '@/types';
 
@@ -27,7 +27,7 @@ const STYLE_OPTIONS: { id: VideoStyle; label: string; desc: string }[] = [
   { id: 'Sales', label: 'Sales', desc: 'Persuasive, compelling, conversion-focused' },
 ];
 
-const LANG_OPTIONS: { id: 'English' | 'Bilingual'; emoji: string; label: string; desc: string }[] = [
+const LANG_OPTIONS: { id: 'English' | 'Burmese' | 'Bilingual'; emoji: string; label: string; desc: string }[] = [
   { id: 'English', emoji: '🇬🇧', label: 'English', desc: 'Global audience, Western accent options' },
   { id: 'Burmese', emoji: '🇲🇲', label: 'Burmese', desc: 'Native Burmese voiceover & script' },
   { id: 'Bilingual', emoji: '🌐', label: 'Bilingual', desc: 'Mix English & Burmese in one video' },

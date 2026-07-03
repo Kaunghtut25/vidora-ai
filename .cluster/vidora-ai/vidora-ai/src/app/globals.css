@@ -1,119 +1,66 @@
 @import "tailwindcss";
 
-/* ═══ Vendora AI — CKEditor-style Design System ═══ */
-:root {
-  --purple: #771BFF;
-  --purple-dark: #5B0FCC;
-  --purple-light: #E8DFFF;
-  --lime: #AFE229;
-  --bg-white: #FFFFFF;
-  --bg-light: #F8F9FB;
-  --bg-card: #FFFFFF;
-  --text-primary: #1C2331;
-  --text-secondary: #4A5568;
-  --text-muted: #718096;
-  --border-light: #E2E8F0;
-  --border-card: #EDF2F7;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-  --shadow-card: 0 4px 12px rgba(0,0,0,0.06);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
-}
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--bg-white);
-  color: var(--text-primary);
+  background: #050508;
+  color: #fff;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: var(--purple-light); color: var(--purple-dark); }
+::selection { background: rgba(168, 85, 247, 0.3); color: #fff; }
 
-/* ══ Gradient text ══ */
+/* ═══ Gradient text (purple → cyan) ═══ */
 .gradient-purple {
-  background: linear-gradient(135deg, #771BFF, #A855F7);
+  background: linear-gradient(135deg, #8B5CF6, #A855F7, #06B6D4);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* ══ Cards ══ */
-.card-white {
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-radius: 12px;
-  box-shadow: var(--shadow-sm);
+/* ═══ Shared card ═══ */
+.card-dark {
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
   transition: all 0.3s ease;
 }
-.card-white:hover {
-  box-shadow: var(--shadow-card);
-  border-color: #D1D5DB;
+.card-dark:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(168,85,247,0.2);
 }
 
-/* ══ Buttons ══ */
-.btn-primary {
-  background: var(--purple);
-  color: white;
+/* ═══ Button ═══ */
+.btn-purple {
+  background: #7C3AED;
+  color: #fff;
   font-weight: 600;
-  border-radius: 8px;
-  padding: 12px 24px;
-  transition: all 0.2s;
-  display: inline-flex; align-items: center; gap: 8px;
-}
-.btn-primary:hover { background: var(--purple-dark); }
-.btn-outline {
-  border: 1.5px solid var(--border-light);
-  color: var(--text-primary);
-  font-weight: 600;
-  border-radius: 8px;
-  padding: 12px 24px;
+  border-radius: 9999px;
+  padding: 12px 28px;
   transition: all 0.2s;
 }
-.btn-outline:hover { border-color: var(--purple); color: var(--purple); }
+.btn-purple:hover { background: #6D28D9; }
 
-/* ══ Sections ══ */
-.section-padding { padding: 80px 0; }
-.section-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-.section-subtitle {
-  font-size: 1.125rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-/* ══ Partner scroll ══ */
-@keyframes scrollPartners {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.partner-scroll {
-  display: flex;
-  gap: 48px;
-  animation: scrollPartners 30s linear infinite;
-  width: max-content;
-}
-.partner-scroll:hover { animation-play-state: paused; }
-
-/* ══ Tabs ══ */
-.tab-active {
-  color: var(--purple);
-  border-bottom: 3px solid var(--purple);
-}
-
-/* ══ Fade up ══ */
+/* ═══ Animations ═══ */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-up { animation: fadeUp 0.6s ease forwards; }
 
-/* ══ Number counter ══ */
-@keyframes countUp {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes scrollPartners {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
+.partner-scroll {
+  display: flex; gap: 48px;
+  animation: scrollPartners 30s linear infinite;
+  width: max-content;
+}
+.partner-scroll:hover { animation-play-state: paused; }
+
+/* ═══ Section ═══ */
+.section-padding { padding: 80px 0; }
+.section-title { font-size: 2.5rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }

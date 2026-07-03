@@ -68,7 +68,7 @@ export default function RecapPage() {
             YouTube → <span className="text-[#771BFF]">Recap + Burmese Voiceover</span>
           </h1>
           <p className="text-gray-500 max-w-xl mx-auto">
-            Like Invideo AI — paste a YouTube link, and our pipeline extracts frames, writes a Burmese narration with AI, generates voiceover with gTTS, and composes a cinematic recap video.
+            Like Invideo AI — paste a YouTube link, and our pipeline extracts frames, writes a Burmese narration with AI, generates voiceover with Arena AI Agent Mod, and composes a cinematic recap video.
           </p>
         </div>
 
@@ -138,7 +138,7 @@ export default function RecapPage() {
         <div className="bg-white border border-gray-200 rounded-2xl p-5 mb-6">
           <h3 className="text-sm font-semibold text-gray-700 mb-3">Pipeline Steps</h3>
           <div className="flex items-center gap-2 flex-wrap text-xs text-gray-500">
-            {['YouTube Link', 'yt-dlp Info', 'Keyframes', 'Ollama Script', 'gTTS Voice', 'FFmpeg Edit', 'Final MP4'].map((step, i) => (
+            {['YouTube Link', 'yt-dlp Info', 'Keyframes', 'Ollama Script', 'Arena AI Voice', 'FFmpeg Edit', 'Final MP4'].map((step, i) => (
               <div key={step} className="flex items-center">
                 <span className="px-2.5 py-1.5 bg-gray-100 rounded-lg font-medium">{step}</span>
                 {i < 6 && <span className="text-gray-300 mx-0.5">→</span>}

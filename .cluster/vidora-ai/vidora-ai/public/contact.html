@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Contact — Vidora AI</title>
+<style>
+  :root { --purple:#8B5CF6; --cyan:#06B6D4; --green:#10B981; --bg:#050508; --bg2:#0A0A0F; --surface:#111118; --border:#1F1F2E; --text:#fff; --text2:#A1A1AA; --text3:#71717A; }
+  *{margin:0;padding:0;box-sizing:border-box} body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.6}
+  .navbar{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;background:rgba(5,5,8,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px;width:100%}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--purple),var(--cyan));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff}
+  .logo-text{font-weight:900;font-size:20px;color:#fff}
+  .page-hero{min-height:35vh;display:flex;align-items:center;padding-top:64px;position:relative;overflow:hidden}
+  .page-hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:500px;height:500px;background:rgba(139,92,246,.1);border-radius:50%;filter:blur(100px)}
+  .page-hero-content{position:relative;z-index:1;text-align:center;max-width:700px;margin:0 auto}
+  .page-hero h1{font-size:clamp(32px,5vw,52px);font-weight:900}
+  .page-hero h1 span{background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .page-hero p{color:var(--text2);font-size:18px;margin-top:12px}
+  .content{max-width:900px;margin:0 auto;padding:0 24px 80px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  .info-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;gap:16px;margin-bottom:16px}
+  .info-icon{width:44px;height:44px;border-radius:12px;background:rgba(139,92,246,.15);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .info-card h3{font-size:15px;font-weight:700;margin-bottom:4px}
+  .info-card p{color:var(--text2);font-size:13px}
+  .form{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px}
+  .form label{display:block;color:var(--text2);font-size:13px;margin-bottom:6px;margin-top:16px}
+  .form label:first-child{margin-top:0}
+  .form input,.form textarea,.form select{width:100%;padding:12px 16px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;color:#fff;font-size:14px;font-family:inherit}
+  .form textarea{min-height:120px;resize:vertical}
+  .form input:focus,.form textarea:focus{outline:none;border-color:var(--purple)}
+  .btn{display:inline-block;padding:12px 28px;border-radius:50px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .2s;background:var(--purple);color:#fff;margin-top:24px}
+  .btn:hover{background:#7C3AED;box-shadow:0 4px 20px rgba(139,92,246,.4)}
+  footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text3);font-size:13px}
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--green);color:#fff;padding:14px 24px;border-radius:12px;font-weight:600;opacity:0;transition:opacity .3s;z-index:200}.toast.show{opacity:1}
+  @media(max-width:768px){.content{grid-template-columns:1fr}}
+</style></head>
+<body>
+
+<nav class="navbar">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between">
+    <a href="index.html" class="logo"><div class="logo-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><span class="logo-text">Vidora<span style="background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent">AI</span></span></a>
+    <a href="index.html" style="color:var(--text2);text-decoration:none;font-size:14px">← Back</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-content">
+    <h1>Get in <span>Touch</span></h1>
+    <p>Questions, feedback, or partnership? We'd love to hear from you.</p>
+  </div>
+</section>
+
+<div class="content">
+  <div>
+    <div class="info-card"><div class="info-icon">📧</div><div><h3>Email</h3><p>hello@vidora.ai</p></div></div>
+    <div class="info-card"><div class="info-icon">💬</div><div><h3>Discord</h3><p>discord.gg/vidora</p></div></div>
+    <div class="info-card"><div class="info-icon">🕐</div><div><h3>Hours</h3><p>Mon–Sat, 9 AM – 6 PM MMT</p></div></div>
+    <div class="info-card"><div class="info-icon">📍</div><div><h3>Location</h3><p>Yangon, Myanmar</p></div></div>
+    <div class="info-card" style="background:rgba(139,92,246,.05);border-color:rgba(139,92,246,.2)">
+      <div class="info-icon" style="font-size:24px">🇲🇲</div>
+      <div><h3>မြန်မာလို ဆက်သွယ်ရန်</h3><p>မြန်မာဘာသာဖြင့်လည်း ဆက်သွယ်မေးမြန်းနိုင်ပါသည်</p></div>
+    </div>
+  </div>
+  <form class="form" onsubmit="event.preventDefault();document.getElementById('toast').classList.add('show');setTimeout(()=>document.getElementById('toast').classList.remove('show'),3000);this.reset()">
+    <label>Your Name</label>
+    <input type="text" required placeholder="Ko Kaung">
+    <label>Email Address</label>
+    <input type="email" required placeholder="you@example.com">
+    <label>Topic</label>
+    <select><option>General Inquiry</option><option>Partnership</option><option>Enterprise Sales</option><option>Bug Report</option><option>Feature Request</option></select>
+    <label>Message</label>
+    <textarea required placeholder="Tell us everything..."></textarea>
+    <button type="submit" class="btn">Send Message ✉️</button>
+  </form>
+</div>
+
+<div id="toast" class="toast">✅ Message Sent! We'll reply within 24 hours.</div>
+<footer>© 2026 Vidora AI · Made with ❤️ in Yangon, Myanmar</footer>
+</body></html>

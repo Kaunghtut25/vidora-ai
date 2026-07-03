@@ -11,6 +11,7 @@ const navLinks = [
   { label: 'Pricing', href: '/pricing' },
   { label: 'Download', href: '/download' },
   { label: 'Agent', href: '/agent' },
+  { label: 'Help', href: '/help' },
   { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },

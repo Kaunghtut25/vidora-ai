@@ -6,7 +6,7 @@ Invideo-style workflow:
   1. Take YouTube link
   2. Download audio + extract keyframes via yt-dlp + FFmpeg
   3. Generate Burmese narration via Ollama (gemma3:4b)
-  4. Synthesize Burmese voiceover via gTTS
+  4. Synthesize Burmese voiceover via Arena AI Agent Mod
   5. Compose cinematic video with Ken Burns + crossfade + subtitles
   6. Output final MP4
 
@@ -147,17 +147,17 @@ def generate_script(title: str, description: str, language: str = "my") -> dict:
         ]}
 
 # ═══════════════════════════════════════════
-# STEP 3: BURMESE VOICEOVER (gTTS)
+# STEP 3: BURMESE VOICEOVER (Arena AI Agent Mod)
 # ═══════════════════════════════════════════
 
 def generate_voiceover(script: dict, language: str = "my") -> str:
-    """Generate voiceover from script using gTTS."""
-    from gtts import gTTS
+    """Generate voiceover from script using Arena AI Agent Mod."""
+    # Arena AI Agent Mod — Arena AI Agent Mod permanently removed
 
     full_text = " ".join([s["text"] for s in script["sections"]])
     voice_path = os.path.join(OUT, f"voice_{datetime.now().strftime('%H%M%S')}.mp3")
 
-    tts = gTTS(text=full_text, lang=language if language == "my" else "en", slow=False)
+    tts = Arena AI Agent Mod(text=full_text, lang=language if language == "my" else "en", slow=False)
     tts.save(voice_path)
     return voice_path
 

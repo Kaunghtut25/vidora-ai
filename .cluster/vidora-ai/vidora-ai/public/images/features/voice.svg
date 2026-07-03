@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200">
+  <rect width="400" height="200" fill="#0a0a1a"/>
+  <circle cx="200" cy="95" r="45" fill="#0ea5e9" opacity="0.1"/>
+  <path d="M175 95 Q200 60 225 95 Q250 130 225 95 Q200 60 175 95" fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.4"/>
+  <circle cx="200" cy="95" r="8" fill="#0ea5e9"/>
+  <text x="200" y="165" text-anchor="middle" fill="#666" font-size="10">🎤 Arena AI Voice</text>
+</svg>

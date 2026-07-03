@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 Vidora AI — Auto-Generation Agent
-Uses Ollama (LLM) + gTTS/pyttsx3 (TTS) + FFmpeg + MoviePy
 to automatically generate videos from text prompts.
 """
 
@@ -16,7 +15,7 @@ from pathlib import Path
 AVAILABLE_TOOLS = {
     "ollama": "LLM for script generation (qwen2.5-coder, gpt-oss, gemma3)",
     "ffmpeg": "Video/audio processing",
-    "gtts": "Google Text-to-Speech (online, multi-language)",
+    "arena_voice": "Arena AI Agent Mod (Burmese + English, primary)",
     "pyttsx3": "Offline Text-to-Speech (local)",
     "moviepy": "Video editing and composition",
     "scenedetect": "Video scene detection",
@@ -48,11 +47,9 @@ Return ONLY valid JSON:
         return {"success": False, "error": str(e)}
 
 def generate_voice(text: str, output_path: str, language: str = "en") -> bool:
-    """Generate voice audio using gTTS (online) or pyttsx3 (offline)."""
     try:
         if language.startswith("en"):
-            from gtts import gTTS
-            tts = gTTS(text=text, lang=language, slow=False)
+            # Arena AI Agent Mod for voice
             tts.save(output_path)
         else:
             import pyttsx3

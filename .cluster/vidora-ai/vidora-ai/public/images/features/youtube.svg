@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200">
+  <rect width="400" height="200" fill="#0f0f1a"/>
+  <rect x="80" y="50" width="240" height="135" rx="12" fill="#ff0000" opacity="0.15"/>
+  <polygon points="185,80 185,155 230,117" fill="#ff4444"/>
+  <text x="200" y="180" text-anchor="middle" fill="#666" font-family="monospace" font-size="10">youtube.com/watch?v=...</text>
+</svg>

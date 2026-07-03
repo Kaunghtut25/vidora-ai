@@ -10,6 +10,7 @@ import os from 'os';
 
 const execAsync = promisify(exec);
 const DOWNLOAD_DIR = path.join(os.homedir(), 'Vidora_Output');
+const COOKIES = '--cookies-from-browser chrome';
 
 // ── POST: Download video/audio ──
 export async function POST(request: NextRequest) {
@@ -22,8 +23,8 @@ export async function POST(request: NextRequest) {
 
     await execAsync(`mkdir -p "${DOWNLOAD_DIR}"`);
 
-    // Build output filename from video info
-    const infoCmd = `cd "${DOWNLOAD_DIR}" && yt-dlp --no-playlist --no-warnings --print "%(title)s___%(id)s" --max-downloads 1 "${url}"`;
+    // Get video title first
+    const infoCmd = `cd "${DOWNLOAD_DIR}" && yt-dlp ${COOKIES} --no-playlist --no-warnings --print "%(title)s___%(id)s" --max-downloads 1 "${url}"`;
     let titleSafe: string;
     try {
       const { stdout } = await execAsync(infoCmd, { timeout: 15000 });
@@ -33,32 +34,23 @@ export async function POST(request: NextRequest) {
     }
 
     let cmd: string;
-    let ext: string;
 
     if (formatId && formatId.startsWith('audio_')) {
-      // Audio download — specified bitrate
       const bitrate = formatId.replace('audio_', '');
-      ext = 'mp3';
       const output = `${titleSafe}_${bitrate}kbps.%(ext)s`;
-      cmd = `cd "${DOWNLOAD_DIR}" && yt-dlp --no-playlist --no-warnings -x --audio-format mp3 --audio-quality ${bitrate}K -o "${output}" "${url}"`;
+      cmd = `cd "${DOWNLOAD_DIR}" && yt-dlp ${COOKIES} --no-playlist --no-warnings -x --audio-format mp3 --audio-quality ${bitrate}K -o "${output}" "${url}"`;
     } else if (formatId && formatId.includes('+')) {
-      // Specific video+audio format
-      ext = 'mp4';
       const output = `${titleSafe}_${formatId.replace(/\+/g,'_')}.%(ext)s`;
-      cmd = `cd "${DOWNLOAD_DIR}" && yt-dlp --no-playlist --no-warnings -f "${formatId}" --merge-output-format mp4 -o "${output}" "${url}"`;
+      cmd = `cd "${DOWNLOAD_DIR}" && yt-dlp ${COOKIES} --no-playlist --no-warnings -f "${formatId}" --merge-output-format mp4 -o "${output}" "${url}"`;
     } else if (formatId) {
-      // Specific format code
-      ext = 'mp4';
       const output = `${titleSafe}_${formatId}.%(ext)s`;
-      cmd = `cd "${DOWNLOAD_DIR}" && yt-dlp --no-playlist --no-warnings -f "${formatId}" -o "${output}" "${url}"`;
+      cmd = `cd "${DOWNLOAD_DIR}" && yt-dlp ${COOKIES} --no-playlist --no-warnings -f "${formatId}" -o "${output}" "${url}"`;
     } else {
-      // Default: best video+audio
-      ext = 'mp4';
       const output = `${titleSafe}.%(ext)s`;
-      cmd = `cd "${DOWNLOAD_DIR}" && yt-dlp --no-playlist --no-warnings -f "best[height<=1080]" --merge-output-format mp4 -o "${output}" "${url}"`;
+      cmd = `cd "${DOWNLOAD_DIR}" && yt-dlp ${COOKIES} --no-playlist --no-warnings -f "best[height<=1080]" --merge-output-format mp4 -o "${output}" "${url}"`;
     }
 
-    // Fire download
+    // Fire download in background
     exec(cmd, { timeout: 600000 }, (error) => {
       if (error) console.error('Download error:', error.message);
     });
@@ -94,7 +86,7 @@ export async function GET(request: NextRequest) {
 
     // Search YouTube
     if (searchQuery) {
-      const cmd = `yt-dlp --no-playlist --no-warnings --flat-playlist --print "%(title)s||%(id)s||%(duration)s||%(channel)s" "ytsearch10:${searchQuery}"`;
+      const cmd = `yt-dlp ${COOKIES} --no-playlist --no-warnings --flat-playlist --print "%(title)s||%(id)s||%(duration)s||%(channel)s" "ytsearch10:${searchQuery}"`;
       try {
         const { stdout } = await execAsync(cmd, { timeout: 15000 });
         const results = stdout.trim().split('\n').filter(Boolean).map(line => {
@@ -110,49 +102,39 @@ export async function GET(request: NextRequest) {
         });
         return NextResponse.json({ results });
       } catch {
-        return NextResponse.json({ results: [], error: 'Search failed — try pasting a URL directly' });
+        return NextResponse.json({ results: [], error: 'Search failed' });
       }
     }
 
     // Get available formats for a URL
     if (formatsUrl) {
-      const cmd = `yt-dlp --no-playlist --no-warnings --print "%(title)s||%(duration)s||%(thumbnail)s" "${formatsUrl}"`;
+      const infoCmd = `yt-dlp ${COOKIES} --no-playlist --no-warnings --print "%(title)s||%(duration)s||%(thumbnail)s" "${formatsUrl}"`;
       let info = { title: 'Unknown', duration: '?', thumbnail: '' };
       try {
-        const { stdout } = await execAsync(cmd, { timeout: 10000 });
+        const { stdout } = await execAsync(infoCmd, { timeout: 10000 });
         const parts = stdout.trim().split('||');
         info = { title: parts[0] || 'Unknown', duration: parts[1] || '?', thumbnail: parts[2] || '' };
       } catch {}
 
-      // Get formats
-      const fmtCmd = `yt-dlp --no-playlist --no-warnings -F "${formatsUrl}"`;
+      const fmtCmd = `yt-dlp ${COOKIES} --no-playlist --no-warnings -F "${formatsUrl}"`;
       try {
         const { stdout } = await execAsync(fmtCmd, { timeout: 15000 });
         const lines = stdout.split('\n');
         const formats: any[] = [];
-        const audioFormats: any[] = [];
         
         for (const line of lines) {
-          // Parse format lines like: "22  mp4  1280x720  ..."
           const match = line.match(/^(\d+)\s+(\w+)\s+(\d+x?\d*)\s+/);
           if (match) {
             const [_, code, container, res] = match;
             const isAudio = container === 'm4a' || line.includes('audio only');
-            const note = line.includes('video only') ? 'video only' : line.includes('audio only') ? 'audio only' : '';
+            if (isAudio || container === 'mhtml') continue;
             
-            const entry = {
-              code,
-              container,
+            formats.push({
+              code, container,
               resolution: res || 'audio',
-              note,
+              note: line.includes('video only') ? 'video only' : '',
               size: line.match(/(\d+\.?\d*\s*\w+B)/)?.[1] || ''
-            };
-
-            if (isAudio || line.includes('audio only')) {
-              audioFormats.push(entry);
-            } else if (container !== 'mhtml') {
-              formats.push(entry);
-            }
+            });
           }
         }
 
@@ -182,13 +164,7 @@ export async function GET(request: NextRequest) {
       .map(f => {
         const fp = path.join(DOWNLOAD_DIR, f);
         const stat = fs.statSync(fp);
-        return {
-          filename: f,
-          path: fp,
-          size: stat.size,
-          sizeMB: (stat.size / 1048576).toFixed(1),
-          modified: stat.mtime.toISOString()
-        };
+        return { filename: f, path: fp, size: stat.size, sizeMB: (stat.size / 1048576).toFixed(1), modified: stat.mtime.toISOString() };
       })
       .sort((a, b) => new Date(b.modified).getTime() - new Date(a.modified).getTime())
       .slice(0, 30);

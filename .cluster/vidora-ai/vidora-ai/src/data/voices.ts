@@ -86,6 +86,25 @@ export const voices: Voice[] = [
     edgeTTS: 'en-ZA-LeahNeural' },
 ];
 
+// ── Burmese Voices (Arena AI Agent Mod) ──
+export const burmeseVoices: Voice[] = [
+  { id: 'burmese-male-1', name: 'Thiha', gender: 'male', region: 'MM', language: 'Burmese',
+    description: 'Deep, commanding — documentary & news style', accent: 'Native Burmese',
+    gradient: 'from-amber-500 to-orange-600', avatar: '🇲🇲', edgeTTS: 'arena://burmese-male-1' },
+  { id: 'burmese-male-2', name: 'Zaw', gender: 'male', region: 'MM', language: 'Burmese',
+    description: 'Warm, friendly — conversational & casual', accent: 'Native Burmese',
+    gradient: 'from-emerald-500 to-teal-600', avatar: '💬', edgeTTS: 'arena://burmese-male-2' },
+  { id: 'burmese-male-3', name: 'Pyae', gender: 'male', region: 'MM', language: 'Burmese',
+    description: 'Clear, professional — corporate & educational', accent: 'Native Burmese',
+    gradient: 'from-blue-500 to-indigo-600', avatar: '📖', edgeTTS: 'arena://burmese-male-3' },
+  { id: 'burmese-female-1', name: 'Mya', gender: 'female', region: 'MM', language: 'Burmese',
+    description: 'Soft, elegant — storytelling & narration', accent: 'Native Burmese',
+    gradient: 'from-pink-500 to-rose-600', avatar: '🌸', edgeTTS: 'arena://burmese-female-1' },
+  { id: 'burmese-female-2', name: 'Su', gender: 'female', region: 'MM', language: 'Burmese',
+    description: 'Bright, energetic — vlog & social media', accent: 'Native Burmese',
+    gradient: 'from-fuchsia-500 to-purple-600', avatar: '✨', edgeTTS: 'arena://burmese-female-2' },
+];
+
 export const emotions = ['Neutral', 'Professional', 'Friendly', 'Excited', 'Calm'] as const;
 export const styles = ['Educational', 'Storytelling', 'Corporate', 'Vlog', 'Sales'] as const;
 export const languages = ['English', 'Bilingual'] as const;

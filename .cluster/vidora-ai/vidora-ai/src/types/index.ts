@@ -2,7 +2,7 @@
 
 // ── Unions ──
 export type VoiceGender = 'male' | 'female';
-export type VoiceRegion = 'US' | 'UK' | 'IN' | 'AU' | 'CA' | 'NZ' | 'IE' | 'ZA' | 'SG' | 'KE' | 'NG' | 'HK' | 'PH' | 'TZ' | 'Yangon' | 'Mandalay';
+export type VoiceRegion = 'US' | 'UK' | 'IN' | 'AU' | 'CA' | 'NZ' | 'IE' | 'ZA' | 'MM' | 'SG' | 'KE' | 'NG' | 'HK' | 'PH' | 'TZ' | 'Yangon' | 'Mandalay';
 export type VoiceEmotion = 'Neutral' | 'Professional' | 'Friendly' | 'Excited' | 'Calm';
 export type VideoLength = 10 | 15 | 20 | 30 | 50;
 export type VideoStyle = 'Educational' | 'Storytelling' | 'Corporate' | 'Vlog' | 'Sales';
@@ -16,7 +16,7 @@ export interface Voice {
   name: string;
   gender: VoiceGender;
   region: VoiceRegion;
-  language: 'English';
+  language: 'English' | 'Burmese';
   description: string;
   accent: string;
   gradient: string; // tailwind gradient classes for avatar
@@ -57,7 +57,7 @@ export interface VideoSettings {
   length: VideoLength;
   voiceId: string;
   style: VideoStyle;
-  language: 'English' | 'Bilingual';
+  language: 'English' | 'Burmese' | 'Bilingual';
   deepResearch: boolean;
   emotion: VoiceEmotion;
   speed: number;
@@ -82,7 +82,7 @@ export interface Project {
   videoLength?: VideoLength;
   voice?: VoiceSettings;
   style?: VideoStyle;
-  language?: 'English' | 'Bilingual';
+  language?: 'English' | 'Burmese' | 'Bilingual';
   deepResearch?: boolean;
   transcript?: TranscriptLine[];
 }
