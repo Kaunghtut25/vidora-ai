@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Clock, Palette, Globe, Play, Pause, Gauge, Heart } from 'lucide-react';
+import DeepResearchToggle from '@/components/wizard/DeepResearchToggle';
 import { useAppStore } from '@/store';
 import { voices, burmeseVoices, emotions } from '@/data/voices';
 import { playVoicePreview, stopVoicePreview } from '@/lib/voice-audio';
@@ -107,10 +108,12 @@ export default function Step2Page() {
   const voiceSettings = useAppStore((s) => s.voiceSettings);
   const videoStyle = useAppStore((s) => s.videoStyle);
   const projectLanguage = useAppStore((s) => s.projectLanguage);
+  const deepResearch = useAppStore((s) => s.deepResearch);
   const setVideoLength = useAppStore((s) => s.setVideoLength);
   const setVoiceSettings = useAppStore((s) => s.setVoiceSettings);
   const setVideoStyle = useAppStore((s) => s.setVideoStyle);
   const setProjectLanguage = useAppStore((s) => s.setProjectLanguage);
+  const setDeepResearch = useAppStore((s) => s.setDeepResearch);
   const setWizardStep = useAppStore((s) => s.setWizardStep);
 
   const handleBack = () => {
@@ -365,6 +368,11 @@ export default function Step2Page() {
             );
           })}
         </div>
+      </section>
+
+      {/* ── Deep Research ── */}
+      <section>
+        <DeepResearchToggle enabled={deepResearch} onToggle={setDeepResearch} />
       </section>
 
       {/* ── Action Buttons ── */}
