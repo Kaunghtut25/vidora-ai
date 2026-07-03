@@ -8,6 +8,8 @@ import { writeFileSync, unlinkSync } from 'fs';
 
 const execAsync = promisify(exec);
 const VENV_PYTHON = '/Users/kaung/.openclaw-autoclaw/workspace/.venv-agents-py312/bin/python3';
+// Force Ollama env for Python subprocess
+const OLLAMA_ENV = { OPENAI_API_KEY: 'ollama', OPENAI_API_BASE: 'http://localhost:11434/v1' };
 
 type AgentStage = 'analyze' | 'plan' | 'cut' | 'render';
 type JobStatus = 'queued' | 'running' | 'complete' | 'failed';
@@ -34,7 +36,7 @@ export async function POST(request: NextRequest) {
       // Stage 1 only: HKUDS VideoAgent analysis
       const script = `
 import sys, os
-sys.path.insert(0, 'src/lib')
+sys.path.insert(0, '${process.cwd()}/src/lib')
 from vidora_crew import vidora_production
 import json
 result = vidora_production.analyze_only("${video_path}")
@@ -53,7 +55,7 @@ print(json.dumps(result))
 
       const script = `
 import sys, os
-sys.path.insert(0, 'src/lib')
+sys.path.insert(0, '/Users/kaung/.openclaw-autoclaw/workspace/.cluster/vidora-ai/vidora-ai/src/lib')
 from vidora_crew import vidora_production
 import json
 
@@ -73,7 +75,7 @@ print(json.dumps(result))
       // Single-agent quick cut
       const script = `
 import sys, os
-sys.path.insert(0, 'src/lib')
+sys.path.insert(0, '/Users/kaung/.openclaw-autoclaw/workspace/.cluster/vidora-ai/vidora-ai/src/lib')
 from vidora_crew import cut_video_segment, concatenate_scenes
 import json
 
@@ -145,8 +147,8 @@ export async function GET(request: NextRequest) {
 
     // Default: health check
     const { stdout } = await execAsync(
-      `${VENV_PYTHON} -c "from vidora_crew import video_analyzer, storyline_director, video_editor, render_engine; print('OK')"`,
-      { timeout: 10000, cwd: process.cwd() }
+      `cd ${process.cwd()} && PYTHONPATH=src/lib:${process.cwd()} ${VENV_PYTHON} -c "from vidora_crew import video_analyzer; print('OK')"`,
+      { timeout: 10000, cwd: process.cwd(), env: { ...process.env, ...OLLAMA_ENV } }
     );
     return NextResponse.json({ status: 'online', agents: 4, pipeline: 'HKUDS → FireRed → video-use → LTX' });
 
@@ -161,7 +163,7 @@ async function runScript(pyCode: string) {
   try {
     const { stdout, stderr } = await execAsync(
       `${VENV_PYTHON} ${tmpFile}`,
-      { timeout: 300000, maxBuffer: 10 * 1024 * 1024, cwd: process.cwd() }
+      { timeout: 120000, maxBuffer: 10 * 1024 * 1024, cwd: process.cwd(), env: { ...process.env, ...OLLAMA_ENV } }
     );
     return NextResponse.json({ success: true, output: stdout.trim(), stderr: stderr || '' });
   } finally {

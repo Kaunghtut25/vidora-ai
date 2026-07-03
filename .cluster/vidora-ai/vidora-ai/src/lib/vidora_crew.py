@@ -14,12 +14,19 @@ from pathlib import Path
 from datetime import datetime
 from typing import Optional
 
-# Configure Ollama BEFORE crewai imports
+# Force CrewAI to use Ollama via LiteLLM
 os.environ["OPENAI_API_KEY"] = "ollama"
 os.environ["OPENAI_API_BASE"] = "http://localhost:11434/v1"
 
-from crewai import Agent, Task, Crew, Process
+from crewai import Agent, Task, Crew, Process, LLM
 from crewai.tools import tool
+
+# Explicit Ollama LLM — prevents fallback to gpt-4.1-mini
+ollama_llm = LLM(
+    model="ollama/gemma3:4b",
+    base_url="http://localhost:11434",
+    api_key="ollama"
+)
 
 OUT_DIR = os.path.expanduser("~/Vidora_Output")
 AGENTS_DIR = Path(__file__).parent.parent.parent / "agents"
@@ -155,7 +162,7 @@ video_analyzer = Agent(
     backstory='Powered by HKUDS VideoAgent. You analyze raw footage deeply — detecting scenes, objects, speech patterns, and building a structured video memory that other agents can query.',
     tools=[analyze_video_memory, extract_audio_for_transcription],
     verbose=True,
-    allow_delegation=True
+    llm=ollama_llm, allow_delegation=True
 )
 
 # Agent 2: FireRed-OpenStoryline — Creative Director & Scriptwriter
@@ -165,7 +172,7 @@ storyline_director = Agent(
     backstory='Powered by FireRed-OpenStoryline. You are a creative director who transforms raw video memory into compelling narratives. You understand pacing, emotional arcs, and visual storytelling.',
     tools=[],
     verbose=True,
-    allow_delegation=False
+    llm=ollama_llm, allow_delegation=False
 )
 
 # Agent 3: browser-use video-use — Autonomous Video Editor
@@ -175,7 +182,7 @@ video_editor = Agent(
     backstory='Powered by video-use (browser-use). You are a precision editor who takes storylines and raw footage, then executes exact cuts with 30ms audio fades. You self-evaluate your work and fix issues.',
     tools=[cut_video_segment, apply_audio_fade, burn_subtitles, concatenate_scenes],
     verbose=True,
-    allow_delegation=True
+    llm=ollama_llm, allow_delegation=True
 )
 
 # Agent 4: LTX Engine — VFX & Final Rendering
@@ -185,7 +192,7 @@ render_engine = Agent(
     backstory='Powered by LTX Desktop core. You handle the final high-quality rendering with local generative transitions, color grading, and professional encoding.',
     tools=[add_transition_frames, render_final_output],
     verbose=True,
-    allow_delegation=False
+    llm=ollama_llm, allow_delegation=False
 )
 
 # ═══════════════════════════════════════════════
