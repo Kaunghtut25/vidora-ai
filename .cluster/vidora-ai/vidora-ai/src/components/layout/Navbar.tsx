@@ -3,13 +3,14 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Play, Menu, X, Download } from 'lucide-react';
+import { Play, Menu, X, Download, Bot } from 'lucide-react';
 
 const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'Create', href: '/create/step1' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Download', href: '/download' },
+  { label: 'Agent', href: '/agent' },
   { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
