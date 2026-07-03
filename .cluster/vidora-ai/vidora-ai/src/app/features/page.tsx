@@ -192,14 +192,14 @@ function Navbar({ scrolled }: { scrolled: boolean }) {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'border-b border-white/[0.06] bg-[#0a0a0a]/85 backdrop-blur-2xl'
+          ? 'border-b border-white/[0.06] bg-[#0B0F19]/85 backdrop-blur-2xl'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2.5 group" aria-label="Vidora Home">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#FF6B35] to-[#FFB627] flex items-center justify-center font-bold text-sm shadow-lg shadow-orange-500/25 group-hover:shadow-orange-500/40 transition-shadow duration-300">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8B5CF6] to-[#22D3EE] flex items-center justify-center font-bold text-sm shadow-lg shadow-violet-500/25 group-hover:shadow-violet-500/40 transition-shadow duration-300">
               V
             </div>
             <span className="font-bold text-lg tracking-tight">Vidora</span>
@@ -221,7 +221,7 @@ function Navbar({ scrolled }: { scrolled: boolean }) {
           </div>
           <Link
             href="/create/step1"
-            className="hidden md:inline-flex items-center px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-sm font-semibold shadow-lg shadow-orange-500/20 hover:shadow-orange-500/40 hover:scale-[1.02] transition-all duration-200"
+            className="hidden md:inline-flex items-center px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#8B5CF6] to-[#06B6D4] text-sm font-semibold shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 hover:scale-[1.02] transition-all duration-200"
           >
             Get Started
             <span className="ml-1.5 opacity-70">→</span>
@@ -254,12 +254,12 @@ function Footer() {
   };
 
   return (
-    <footer className="border-t border-white/[0.06] bg-[#0a0a0a]">
+    <footer className="border-t border-white/[0.06] bg-[#0B0F19]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
           <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#FF6B35] to-[#FFB627] flex items-center justify-center font-bold text-sm shadow-lg shadow-orange-500/25">V</div>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#8B5CF6] to-[#22D3EE] flex items-center justify-center font-bold text-sm shadow-lg shadow-violet-500/25">V</div>
               <span className="font-bold text-lg tracking-tight">Vidora</span>
             </div>
             <p className="text-sm text-white/40 max-w-xs leading-relaxed mb-6">
@@ -314,14 +314,14 @@ export default function FeaturesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#0B0F19] text-white overflow-x-hidden">
       <Navbar scrolled={scrolled} />
 
       <main>
         {/* ═══════════ PAGE HEADER ═══════════ */}
         <section className="relative pt-32 pb-16 overflow-hidden">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#FF6B35]/6 blur-[120px] pointer-events-none" />
-          <div className="absolute top-1/2 left-0 w-[400px] h-[400px] rounded-full bg-[#FFB627]/5 blur-[100px] pointer-events-none" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#8B5CF6]/6 blur-[120px] pointer-events-none" />
+          <div className="absolute top-1/2 left-0 w-[400px] h-[400px] rounded-full bg-[#22D3EE]/5 blur-[100px] pointer-events-none" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="relative z-10 text-center max-w-3xl mx-auto">
@@ -330,7 +330,7 @@ export default function FeaturesPage() {
               </span>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4">
                 Everything you need to{' '}
-                <span className="bg-gradient-to-r from-[#FF6B35] to-[#FFB627] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#8B5CF6] to-[#22D3EE] bg-clip-text text-transparent">
                   create
                 </span>
               </h1>
@@ -348,9 +348,9 @@ export default function FeaturesPage() {
               {FEATURES.map((feature) => (
                 <div
                   key={feature.title}
-                  className="group relative p-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-[#FF6B35]/20 hover:bg-white/[0.03] transition-all duration-300"
+                  className="group relative p-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-[#8B5CF6]/20 hover:bg-white/[0.03] transition-all duration-300"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FF6B35]/15 to-[#FFB627]/15 border border-[#FF6B35]/10 flex items-center justify-center text-[#FF6B35] mb-5 group-hover:scale-105 transition-transform duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#8B5CF6]/15 to-[#22D3EE]/15 border border-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6] mb-5 group-hover:scale-105 transition-transform duration-300">
                     {feature.icon}
                   </div>
                   <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
@@ -370,7 +370,7 @@ export default function FeaturesPage() {
               </span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
                 Powered by the best{' '}
-                <span className="bg-gradient-to-r from-[#FF6B35] to-[#FFB627] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#8B5CF6] to-[#22D3EE] bg-clip-text text-transparent">
                   TTS engines
                 </span>
               </h2>
@@ -385,7 +385,7 @@ export default function FeaturesPage() {
                   key={engine.name}
                   className="group relative p-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] transition-all duration-300 text-center"
                 >
-                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#FF6B35]/10 border border-[#FF6B35]/20 text-[10px] font-semibold text-[#FFB627] uppercase tracking-wider mb-4">
+                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 text-[10px] font-semibold text-[#22D3EE] uppercase tracking-wider mb-4">
                     {engine.badge}
                   </span>
                   <h3 className="text-lg font-bold mb-3">{engine.name}</h3>
@@ -409,7 +409,7 @@ export default function FeaturesPage() {
               </span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
                 24{' '}
-                <span className="bg-gradient-to-r from-[#FF6B35] to-[#FFB627] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#8B5CF6] to-[#22D3EE] bg-clip-text text-transparent">
                   lifelike voices
                 </span>
               </h2>
@@ -425,7 +425,7 @@ export default function FeaturesPage() {
                   onClick={() => setActiveTab(tab.key)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     activeTab === tab.key
-                      ? 'bg-gradient-to-r from-[#FF6B35] to-[#F7931E] text-white shadow-lg shadow-orange-500/20'
+                      ? 'bg-gradient-to-r from-[#8B5CF6] to-[#06B6D4] text-white shadow-lg shadow-violet-500/20'
                       : 'border border-white/[0.08] bg-white/[0.02] text-white/50 hover:text-white hover:border-white/[0.15]'
                   }`}
                 >
@@ -443,7 +443,7 @@ export default function FeaturesPage() {
                 <div
                   key={voice.name}
                   className={`group relative p-5 rounded-xl border transition-all duration-300 text-center ${
-                      ? 'border-[#FF6B35]/15 bg-[#FF6B35]/[0.03] hover:border-[#FF6B35]/30 hover:bg-[#FF6B35]/[0.06]'
+                      ? 'border-[#8B5CF6]/15 bg-[#8B5CF6]/[0.03] hover:border-[#8B5CF6]/30 hover:bg-[#8B5CF6]/[0.06]'
                       : 'border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.03]'
                   }`}
                 >
@@ -472,7 +472,7 @@ export default function FeaturesPage() {
 
                   {/* Play Button Overlay */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#FF6B35] to-[#F7931E] flex items-center justify-center shadow-lg shadow-orange-500/30">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#06B6D4] flex items-center justify-center shadow-lg shadow-violet-500/30">
                       <PlayIcon className="w-4 h-4 text-white ml-0.5" />
                     </div>
                   </div>
@@ -491,7 +491,7 @@ export default function FeaturesPage() {
               </span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
                 How It{' '}
-                <span className="bg-gradient-to-r from-[#FF6B35] to-[#FFB627] bg-clip-text text-transparent">Works</span>
+                <span className="bg-gradient-to-r from-[#8B5CF6] to-[#22D3EE] bg-clip-text text-transparent">Works</span>
               </h2>
               <p className="text-base text-white/40 max-w-xl mx-auto">
                 Three steps from idea to cinematic video. No editing skills required.
@@ -500,7 +500,7 @@ export default function FeaturesPage() {
 
             <div className="relative">
               {/* Connector line (desktop) */}
-              <div className="hidden lg:block absolute top-12 left-[20%] right-[20%] h-px bg-gradient-to-r from-[#FF6B35]/0 via-[#FF6B35]/30 to-[#FFB627]/0" />
+              <div className="hidden lg:block absolute top-12 left-[20%] right-[20%] h-px bg-gradient-to-r from-[#8B5CF6]/0 via-[#8B5CF6]/30 to-[#22D3EE]/0" />
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-6">
                 {[
@@ -524,10 +524,10 @@ export default function FeaturesPage() {
                   },
                 ].map((item) => (
                   <div key={item.step} className="relative text-center lg:px-6">
-                    <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-[#FF6B35]/10 to-[#FFB627]/10 border border-[#FF6B35]/10 flex items-center justify-center text-2xl">
+                    <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-[#8B5CF6]/10 to-[#22D3EE]/10 border border-[#8B5CF6]/10 flex items-center justify-center text-2xl">
                       {item.icon}
                     </div>
-                    <div className="text-xs font-bold text-[#FF6B35] tracking-wider mb-2">STEP {item.step}</div>
+                    <div className="text-xs font-bold text-[#8B5CF6] tracking-wider mb-2">STEP {item.step}</div>
                     <h3 className="text-xl font-bold mb-3">{item.title}</h3>
                     <p className="text-sm text-white/40 leading-relaxed max-w-xs mx-auto">{item.desc}</p>
                   </div>
@@ -540,8 +540,8 @@ export default function FeaturesPage() {
         {/* ═══════════ CTA ═══════════ */}
         <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] bg-gradient-to-br from-[#FF6B35]/8 via-[#F7931E]/4 to-[#FFB627]/8 p-10 sm:p-16 lg:p-20 text-center">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-[#FF6B35]/15 blur-[100px] pointer-events-none" />
+            <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] bg-gradient-to-br from-[#8B5CF6]/8 via-[#06B6D4]/4 to-[#22D3EE]/8 p-10 sm:p-16 lg:p-20 text-center">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-[#8B5CF6]/15 blur-[100px] pointer-events-none" />
               <div className="relative z-10 max-w-2xl mx-auto">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
                   Ready to hear them in action?
@@ -552,7 +552,7 @@ export default function FeaturesPage() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                   <Link
                     href="/create/step1"
-                    className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 rounded-xl bg-gradient-to-r from-[#FF6B35] to-[#F7931E] font-semibold text-base shadow-xl shadow-orange-500/25 hover:shadow-orange-500/45 hover:scale-[1.02] transition-all duration-200"
+                    className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-4 rounded-xl bg-gradient-to-r from-[#8B5CF6] to-[#06B6D4] font-semibold text-base shadow-xl shadow-violet-500/25 hover:shadow-violet-500/45 hover:scale-[1.02] transition-all duration-200"
                   >
                     Start Creating Free
                     <span className="ml-2 opacity-70">→</span>
